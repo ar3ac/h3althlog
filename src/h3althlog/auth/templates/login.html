@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <title>H3althlog · Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <h1>H3althlog – Login</h1>
+
+    <!-- Messaggi (opzionale, utili per feedback) -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for m in messages %}
+            <li>{{ m }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.login') }}">
+      <div>
+        <label for="username">Utente</label>
+        <input id="username" name="username" type="text" required autocomplete="username">
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password">
+      </div>
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit">Entra</button>
+    </form>
+  </body>
+</html>

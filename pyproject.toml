@@ -1,0 +1,23 @@
+[project]
+name = "h3althlog"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "ar3ac", email = "luca.marrazzo@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "argon2-cffi>=25.1.0",
+    "flask>=3.1.1",
+    "flask-limiter>=3.12",
+    "flask-wtf>=1.2.2",
+    "python-dotenv>=1.1.1",
+]
+
+[project.scripts]
+h3althlog = "h3althlog:main"
+
+[build-system]
+requires = ["uv_build>=0.8.10,<0.9.0"]
+build-backend = "uv_build"
