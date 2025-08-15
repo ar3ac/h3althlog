@@ -8,6 +8,7 @@ from datetime import timedelta
 from flask import Flask, redirect, url_for, session
 from dotenv import load_dotenv
 from .config import DevConfig, ProdConfig
+from .models import db
 
 # Carica .env in dev
 load_dotenv(override=False)
@@ -18,6 +19,11 @@ app = Flask(__name__)
 env = os.getenv("H3ALTHLOG_ENV", "dev").lower()
 app.config.from_object(ProdConfig if env in {
                        "prod", "production"} else DevConfig)
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 # Applica durata "permanent"
 @app.before_request

@@ -26,6 +26,11 @@ class BaseConfig:
     TEMPLATES_AUTO_RELOAD = False        # in dev lo accendiamo
 
 
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'h3althlog.db')}"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
 class DevConfig(BaseConfig):
     DEBUG = True
     TEMPLATES_AUTO_RELOAD = True
