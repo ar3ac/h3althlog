@@ -1,7 +1,6 @@
 import os
 from flask import render_template, request, redirect, url_for, flash, session
 from argon2 import PasswordHasher
-
 from . import bp                    # il Blueprint "auth" creato in auth/__init__.py
 from ..extensions import limiter    # rate limiter condiviso
 
