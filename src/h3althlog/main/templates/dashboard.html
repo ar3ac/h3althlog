@@ -18,6 +18,11 @@
 
     <h1>Ciao {{ user }} 👋</h1>
     <p>Benvenuto nella tua dashboard!</p>
+    <a href="{{ url_for('entries.new_entry') }}" class="btn btn-primary">
+    ➕ Aggiungi giornata
+    </a>
+
+
     <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
   </body>
 </html>

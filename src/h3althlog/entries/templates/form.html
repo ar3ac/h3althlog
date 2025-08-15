@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ "Nuova giornata" if mode == "new" else "Modifica giornata" }}</title>
+</head>
+<body>
+    <h1>{{ "Nuova giornata" if mode == "new" else "Modifica giornata" }}</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        {{ form.date.label }} {{ form.date(size=10) }}<br><br>
+
+        {{ form.breakfast_quality.label }} {{ form.breakfast_quality(size=3) }}<br>
+        {{ form.lunch_quality.label }} {{ form.lunch_quality(size=3) }}<br>
+        {{ form.dinner_quality.label }} {{ form.dinner_quality(size=3) }}<br><br>
+
+        {{ form.breakfast_diet.label }} {{ form.breakfast_diet(size=3) }}<br>
+        {{ form.lunch_diet.label }} {{ form.lunch_diet(size=3) }}<br>
+        {{ form.dinner_diet.label }} {{ form.dinner_diet(size=3) }}<br><br>
+
+        {{ form.mood.label }} {{ form.mood(size=20) }}<br>
+        {{ form.poop_quality.label }} {{ form.poop_quality(size=20) }}<br><br>
+
+        {{ form.medications.label }} {{ form.medications(rows=3, cols=30) }}<br>
+        {{ form.comment.label }} {{ form.comment(rows=3, cols=30) }}<br><br>
+
+        {{ form.steps.label }} {{ form.steps(size=10) }}<br><br>
+
+        {{ form.submit }}
+    </form>
+</body>
+</html>

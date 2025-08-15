@@ -1,3 +1,4 @@
+from .entries import bp as entries_bp
 from .main import bp as main_bp
 from flask import flash, redirect, url_for
 from functools import wraps
@@ -38,3 +39,5 @@ limiter.init_app(app)
 app.register_blueprint(auth_bp)
 
 app.register_blueprint(main_bp)
+
+app.register_blueprint(entries_bp)

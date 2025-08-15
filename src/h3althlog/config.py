@@ -30,6 +30,7 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'h3althlog.db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    WTF_CSRF_SSL_STRICT = False
 
 class DevConfig(BaseConfig):
     DEBUG = True
