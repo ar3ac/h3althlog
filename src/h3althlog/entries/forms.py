@@ -1,18 +1,69 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, IntegerField, StringField, TextAreaField, SubmitField
+from wtforms import DateField, IntegerField, StringField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Optional
 
 
 class EntryForm(FlaskForm):
     date = DateField("Data", validators=[DataRequired()], format="%Y-%m-%d")
 
-    breakfast_quality = IntegerField("Qualità colazione (1-3)", validators=[Optional()])
-    lunch_quality = IntegerField("Qualità pranzo (1-3)", validators=[Optional()])
-    dinner_quality = IntegerField("Qualità cena (1-3)", validators=[Optional()])
+    breakfast_quality = SelectField(
+        "Qualità colazione",
+        choices=[("0", "--- Seleziona ---"), (1, "Bene ✅"),
+                 (2, "Normale 😐"), (3, "Male ❌")],
+        coerce=int,
+        validators=[Optional()]
+    )
+    lunch_quality = SelectField(
+        "Qualità pranzo",
+        choices=[("0", "--- Seleziona ---"), (1, "Bene ✅"),
+                 (2, "Normale 😐"), (3, "Male ❌")],
+        coerce=int,
+        validators=[Optional()]
+    )
+    dinner_quality = SelectField(
+        "Qualità cena",
+        choices=[("0", "--- Seleziona ---"), (1, "Bene ✅"),
+                 (2, "Normale 😐"), (3, "Male ❌")],
+        coerce=int,
+        validators=[Optional()]
+    )
 
-    breakfast_diet = IntegerField("Dieta colazione (1-5)", validators=[Optional()])
-    lunch_diet = IntegerField("Dieta pranzo (1-5)", validators=[Optional()])
-    dinner_diet = IntegerField("Dieta cena (1-5)", validators=[Optional()])
+    breakfast_diet = SelectField(
+        "Dieta colazione", 
+        choices=[
+            ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
+            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (3, "Pesce       🐟"),
+            (4, "Pollo       🍗"),
+            (5, "Carne rossa 🥩"),
+        ],
+        coerce=int,
+        validators=[Optional()]
+    )
+    lunch_diet = SelectField(
+        "Dieta pranzo",
+        choices=[
+            ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
+            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (3, "Pesce       🐟"),
+            (4, "Pollo       🍗"),
+            (5, "Carne rossa 🥩"),
+        ],
+        coerce=int,
+        validators=[Optional()]
+    )
+    dinner_diet = SelectField(
+        "Dieta cena",
+        choices=[
+            ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
+            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (3, "Pesce       🐟"),
+            (4, "Pollo       🍗"),
+            (5, "Carne rossa 🥩"),
+        ],
+        coerce=int,
+        validators=[Optional()]
+    )
 
     mood = StringField("Umore", validators=[Optional()])
     poop_quality = StringField("Qualità cacca", validators=[Optional()])
