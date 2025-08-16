@@ -32,7 +32,7 @@ class EntryForm(FlaskForm):
         "Dieta colazione", 
         choices=[
             ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
-            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (2, "Vegetariano 🥦"),
             (3, "Pesce       🐟"),
             (4, "Pollo       🍗"),
             (5, "Carne rossa 🥩"),
@@ -44,7 +44,7 @@ class EntryForm(FlaskForm):
         "Dieta pranzo",
         choices=[
             ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
-            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (2, "Vegetariano 🥦"),
             (3, "Pesce       🐟"),
             (4, "Pollo       🍗"),
             (5, "Carne rossa 🥩"),
@@ -56,7 +56,7 @@ class EntryForm(FlaskForm):
         "Dieta cena",
         choices=[
             ("0", "--- Seleziona ---"), (1, "Vegano      🌱 "),
-            (2, "Vegetariano 🥦🥛🧀🥚"),
+            (2, "Vegetariano 🥦"),
             (3, "Pesce       🐟"),
             (4, "Pollo       🍗"),
             (5, "Carne rossa 🥩"),
@@ -65,8 +65,25 @@ class EntryForm(FlaskForm):
         validators=[Optional()]
     )
 
-    mood = StringField("Umore", validators=[Optional()])
-    poop_quality = StringField("Qualità cacca", validators=[Optional()])
+    mood = SelectField(
+        "Umore", 
+        choices=[
+        ("0", "--- Seleziona ---"), (1, "Felice 😊"),
+        (2, "Neutro 😐"), (3, "Triste 😢")
+    ],
+    coerce=int,
+    validators=[Optional()]
+    )
+
+    poop_quality = SelectField(
+        "Qualità cacca",
+        choices=[
+            ("0", "--- Seleziona ---"), (1, "Bene 😊"),
+            (2, "Normale 😐"), (3, "Male 😢")
+        ],
+        coerce=int,
+        validators=[Optional()]
+    )
     medications = TextAreaField("Farmaci", validators=[Optional()])
     comment = TextAreaField("Commento", validators=[Optional()])
     steps = IntegerField("Passi", validators=[Optional()])

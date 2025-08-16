@@ -3,11 +3,27 @@ from datetime import date as dt_date
 from ..models import db, Entry
 from .forms import EntryForm
 from . import bp
+from wtforms import SelectField
+
+def normalize_form_selects(form):
+    """
+    Scansiona tutti i campi di tipo SelectField in un form
+    e converte 0 in None.
+    """
+    for field in form:
+        if isinstance(field, SelectField):
+            if field.data == 0:
+                field.data = None
 
 @bp.route("/new", methods=["GET", "POST"])
 def new_entry():
     form = EntryForm()
-    form.date.data = dt_date.today()
+    # Se arriva ?date=YYYY-MM-DD, usala
+    date_str = request.args.get("date")
+    if date_str:
+        form.date.data = dt_date.fromisoformat(date_str)
+    else:
+        form.date.data = dt_date.today()
 
     if form.validate_on_submit():
         entry = Entry.query.filter_by(date=form.date.data).first()
@@ -15,6 +31,7 @@ def new_entry():
             flash("Giornata già esistente, usa la modifica.", "warning")
             return redirect(url_for("entries.edit_entry", entry_date=form.date.data))
 
+        normalize_form_selects(form)
         entry = Entry(
             date=form.date.data,
             breakfast_quality=form.breakfast_quality.data,
@@ -43,6 +60,7 @@ def edit_entry(entry_date):
     form = EntryForm(obj=entry)
 
     if form.validate_on_submit():
+        normalize_form_selects(form)
         form.populate_obj(entry)
         db.session.commit()
         flash("Giornata aggiornata!", "success")
