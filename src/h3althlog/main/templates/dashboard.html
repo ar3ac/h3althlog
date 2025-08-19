@@ -27,7 +27,7 @@
         <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
       </div>
     </div>
-    
+
     <div class="days">
       {% for d in week_days %}
         <div class="day-name">{{ d.strftime('%a %d %b')|lower().capitalize() }}</div>
@@ -68,7 +68,7 @@
     </div>
 
 
-    <a href="{{ url_for('entries.new_entry') }}" class="btn btn-primary">
+    <a href="{{ url_for('main.new_entry') }}" class="btn btn-primary">
     ➕ Aggiungi giornata
     </a>
 
