@@ -19,27 +19,34 @@
     <h1>Ciao {{ user }} 👋</h1>
     <p>Benvenuto nella tua dashboard!</p>
 
-    <h2>{{ week_label }}</h2>
-  <ul class="week-days">
-    {% for day in day_links %}
-      <li>
-        {{ day.date.strftime("%a %d %b") }}
-        {% if day.exists %}
-          <a href="{{ day.url }}">✏️ Edit</a>
-        {% else %}
-          <a href="{{ day.url }}">➕ New</a>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-<div class="week-bar">
-  <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
-  <div class="week-title">{{ week_label }}</div>
-  <div>
-    <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
-    <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
+  <div class="week-bar">
+    <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
+    <div class="week-title">{{ week_label }}</div>
+    <div style="display:flex; gap:.5rem;">
+      <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
+      <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
+    </div>
   </div>
-</div>
+
+  <div class="days">
+    {% for d in week_days %}
+      <div class="day-name">{{ d.strftime('%a %d %b')|lower().capitalize() }}</div>
+      <div>
+        {% if entries.get(d) %}
+          <span class="badge badge-ok">✔️ Compilato</span>
+        {% else %}
+          <span class="badge badge-new">➕ Vuoto</span>
+        {% endif %}
+      </div>
+      <div>
+        {% if entries.get(d) %}
+          <a class="btn" href="{{ url_for('main.edit_entry', date=d.isoformat()) }}">Apri</a>
+        {% else %}
+          <a class="btn" href="{{ url_for('main.new_entry') }}?date={{ d.isoformat() }}">Apri</a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
     <div class="card">
       <h3>Qualità pasti & Tendenza Dieta</h3>
       <ul>
