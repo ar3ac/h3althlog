@@ -15,10 +15,8 @@ def home():
 
 @bp.route("/dashboard")
 def dashboard():
-    from datetime import timedelta, date as dt_date
-    from flask import request
-
-    # data di partenza (oggi o da query)
+    # Capire da che data partire
+    # prende il parametro start dall'url e lo converte da str a data
     start_str = request.args.get("start")
     try:
         start_date = dt_date.fromisoformat(
@@ -26,25 +24,30 @@ def dashboard():
     except ValueError:
         start_date = dt_date.today()
 
-    # label e giorni
+    # Creare la label settimana
     week_label = get_week_label(today=start_date)
+
+    # 3. Date prev/next
+    # prima calcolo il lunedì della start_date
+    monday = start_date - timedelta(days=start_date.weekday())
+    # poi calcolo il lunedì della settimana precedente e successiva
+    prev_start = monday - timedelta(days=7)
+    next_start = monday + timedelta(days=7)
+
+    # 5. Lista giorni della settimana
     week_days = get_week_days(today=start_date)
 
-    # entries della settimana
-    entries_list = get_week_entries(start_date)
+    # 6. Recupero entries della settimana
+    entries_list = get_week_entries()   # <-- usa la tua funzione services.py
     entries_map = {e.date: e for e in entries_list}
 
-    # link navigazione
-    prev_start = start_date - timedelta(days=7)
-    next_start = start_date + timedelta(days=7)
 
     return render_template(
         "dashboard.html",
-        user=session.get("user"),
         week_label=week_label,
-        week_days=week_days,
-        entries=entries_map,        # dict → template usa entries.get(d)
+        start_date=start_date,
         prev_start=prev_start,
         next_start=next_start,
-        start_date=start_date,
+        week_days=week_days,
+        entries=entries_map,
     )

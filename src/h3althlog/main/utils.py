@@ -34,6 +34,11 @@ def get_week_label(today: date | None = None) -> str:
     return label
 
 
+def get_week_days(today: date | None = None) -> list[date]:
+    start, end = get_week_range(today)
+    return [start + timedelta(days=i) for i in range(7)]
+
+
 def get_meal_quality_label(avg: float) -> str:
     """Trasforma la media numerica in etichetta + emoji."""
     if avg < 1.5:
@@ -129,6 +134,4 @@ def get_steps_label(steps: list[int]) -> str:
         return f"🚶 {formatted} 🔴"
 
 
-def get_week_days(today: date | None = None) -> list[date]:
-    start, end = get_week_range(today)
-    return [start + timedelta(days=i) for i in range(7)]
+

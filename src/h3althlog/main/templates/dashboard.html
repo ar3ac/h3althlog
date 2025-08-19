@@ -6,50 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
-    {% with messages = get_flashed_messages(with_categories=True) %}
-      {% if messages %}
-        <ul>
-          {% for cat, m in messages %}
-            <li class="{{ cat }}">{{ m }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
-
-    <h1>Ciao {{ user }} 👋</h1>
-    <p>Benvenuto nella tua dashboard!</p>
-
-<div class="week-bar">
-  <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
-  <div class="week-title">{{ week_label }}</div>
-  <div style="display:flex; gap:.5rem;">
-    <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
-    <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
-  </div>
-</div>
-
-<div class="days">
-  {% for d in week_days %}
-    <div class="day-name">{{ d.strftime('%a %d %b')|lower().capitalize() }}</div>
-    <div>
-      {% if entries.get(d) %}
-        <span class="badge badge-ok">✔️ Compilato</span>
-      {% else %}
-        <span class="badge badge-new">➕ Vuoto</span>
-      {% endif %}
+    <h1>{{ week_label }}</h1>
+    
+    <div class="week-bar">
+      <a href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">
+        ← Settimana precedente
+      </a>
+      <a href="{{ url_for('main.dashboard') }}">
+        Oggi
+      </a>
+      <a href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">
+        Settimana successiva →
+      </a>
+      <ul>
+        {% for d in week_days %}
+          <li>
+            {{ d }} —
+            {% if entries.get(d) %}
+              ✔️ Compilato
+            {% else %}
+              ➕ Vuoto
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-    <div>
-      {% if entries.get(d) %}
-        <a class="btn" href="{{ url_for('main.edit_entry', date=d.isoformat()) }}">Apri</a>
-      {% else %}
-        <a class="btn" href="{{ url_for('main.new_entry') }}?date={{ d.isoformat() }}">Apri</a>
-      {% endif %}
-    </div>
-  {% endfor %}
-</div>
-
-
-
-    <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
   </body>
 </html>
