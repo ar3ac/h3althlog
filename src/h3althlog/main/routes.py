@@ -1,4 +1,5 @@
-from flask import render_template, session, redirect, url_for, flash
+from datetime import date as dt_date, timedelta
+from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
 from .utils import get_week_label, get_meals_with_diet, get_mood_label, get_steps_label, get_week_days
 from .services import get_week_entries
@@ -13,14 +14,21 @@ def home():
 
 @bp.route("/dashboard")
 def dashboard():
-    week_label = get_week_label()
-    entries = get_week_entries()
+    # Navigazione settimana via query ?start=YYYY-MM-DD (default: oggi)
+    start_str = request.args.get("start")
+    try:
+        start_date = dt_date.fromisoformat(start_str) if start_str else dt_date.today()
+    except ValueError:
+        start_date = dt_date.today()
+
+    week_label = get_week_label(today=start_date)
+    entries = get_week_entries(start=start_date)
 
     # Indiciamo le date già presenti nel DB
     existing_dates = {e.date for e in entries}
 
     # Giorni della settimana corrente
-    week_days = get_week_days()
+    week_days = get_week_days(today=start_date)
 
     # Prepariamo dati per i link
     day_links = []
@@ -68,8 +76,15 @@ def dashboard():
     mood_label = get_mood_label(moods)
     steps_label = get_steps_label(steps)
 
+    # Calcolo link navigazione
+    prev_start = start_date - timedelta(days=7)
+    next_start = start_date + timedelta(days=7)
+
     return render_template(
         "dashboard.html",
+        prev_start=prev_start,
+        next_start=next_start,
+        start_date=start_date,
         week_label=week_label,
         meals=meals,
         mood_label=mood_label,
