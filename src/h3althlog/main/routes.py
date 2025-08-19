@@ -4,6 +4,7 @@ from . import bp
 from .utils import get_week_label, get_meals_with_diet, get_mood_label, get_steps_label, get_week_days
 from .services import get_week_entries
 
+
 @bp.route("/")
 def home():
     # Se già loggato → vai in dashboard; altrimenti → login
@@ -14,36 +15,30 @@ def home():
 
 @bp.route("/dashboard")
 def dashboard():
-    # Navigazione settimana via query ?start=YYYY-MM-DD (default: oggi)
+    # --- NUOVO: lettura start e calcoli settimana scelta ---
     start_str = request.args.get("start")
     try:
-        start_date = dt_date.fromisoformat(start_str) if start_str else dt_date.today()
+        start_date = dt_date.fromisoformat(
+            start_str) if start_str else dt_date.today()
     except ValueError:
         start_date = dt_date.today()
 
+    # <-- prima era senza argomento
     week_label = get_week_label(today=start_date)
+    # <-- serve al template
+    week_days = get_week_days(today=start_date)
+    # <-- prima: get_week_entries()
     entries = get_week_entries(start=start_date)
 
-    # Indiciamo le date già presenti nel DB
-    existing_dates = {e.date for e in entries}
+    # Mappa per badge ✔️/➕ nel template
+    entries_map = {e.date: e for e in entries}
 
-    # Giorni della settimana corrente
-    week_days = get_week_days(today=start_date)
+    # Link navigazione
+    prev_start = start_date - timedelta(days=7)
+    next_start = start_date + timedelta(days=7)
 
-    # Prepariamo dati per i link
-    day_links = []
-    for d in week_days:
-        exists = d in existing_dates
-        if exists:
-            url = url_for("entries.edit_entry", entry_date=d.isoformat())
-        else:
-            url = url_for("entries.new_entry") + f"?date={d.isoformat()}"
+    # ... (tuo codice che calcola meals/mood_label/steps_label rimane invariato)
 
-        day_links.append({
-            "date": d,
-            "exists": exists,
-            "url": url
-        })
 
     # Liste di aggregazione
     colazione_q, pranzo_q, cena_q = [], [], []
@@ -89,5 +84,11 @@ def dashboard():
         meals=meals,
         mood_label=mood_label,
         steps_label=steps_label,
-        day_links=day_links
+        #day_links=day_links
+        # --- NUOVO: variabili usate dal template ---
+        week_days=week_days,
+        entries=entries_map,
+        prev_start=prev_start,
+        next_start=next_start,
+        start_date=start_date,
     )

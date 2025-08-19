@@ -1,8 +1,7 @@
 from ..models import Entry
 from .utils import get_week_range
-
-
 from datetime import date
+
 
 def get_week_entries(start: date | None = None):
     start, end = get_week_range(start)
