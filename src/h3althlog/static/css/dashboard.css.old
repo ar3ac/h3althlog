@@ -1,0 +1,143 @@
+/* --- Font + Layout base --- */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #333;
+}
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.week-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.week-bar a {
+  text-decoration: none;
+  color: #1976d2; /* blu tenue */
+  font-weight: 600;
+}
+.week-bar a:hover {
+  text-decoration: underline;
+}
+
+/* --- Griglia settimana --- */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.day-header {
+  text-align: center;
+  font-weight: 700;
+  color: #555;
+}
+.day-box {
+  border-radius: 8px;
+  padding: 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  text-decoration: none;
+  color: #111;
+  display: block;
+  transition: background 0.2s ease, border 0.2s ease;
+}
+.day-ok {
+  background: #e0f2e9; /* verde pastello elegante */
+  border: 1px solid #cce3d6;
+}
+.day-empty {
+  background: #f2f2f2; /* grigio chiaro soft */
+  border: 1px solid #e0e0e0;
+}
+.day-today {
+  border: 2px solid #90caf9; /* azzurrino tenue */
+}
+.day-box:hover {
+  background: #ddd; /* leggero feedback hover */
+}
+
+/* --- HEADER / NAVBAR --- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+  background: #fafafa;
+  position: relative;
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 0.5px;
+}
+
+/* --- Menu Desktop --- */
+.app-header nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.app-header nav a {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.app-header nav a:hover {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+/* --- Toggle hidden di default --- */
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* --- Responsive --- */
+@media (max-width: 700px) {
+  .app-header {
+    flex-wrap: wrap;
+  }
+
+  .app-header nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background: #fafafa;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Mostra hamburger */
+  .nav-toggle-label {
+    display: block;
+    color: #444;
+  }
+
+  /* Se checkbox attivo → mostra menu */
+  .nav-toggle:checked~nav {
+    display: flex;
+  }
+}

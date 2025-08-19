@@ -50,4 +50,5 @@ def dashboard():
         next_start=next_start,
         week_days=week_days,
         entries=entries_map,
+        current_date=dt_date.today(),
     )

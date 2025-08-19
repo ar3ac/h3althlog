@@ -1,35 +1,48 @@
-<!doctype html>
-<html lang="it">
-  <head>
-    <meta charset="utf-8">
-    <title>H3althlog · Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    <h1>{{ week_label }}</h1>
-    
-    <div class="week-bar">
-      <a href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">
-        ← Settimana precedente
-      </a>
-      <a href="{{ url_for('main.dashboard') }}">
-        Oggi
-      </a>
-      <a href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">
-        Settimana successiva →
-      </a>
-      <ul>
-        {% for d in week_days %}
-          <li>
-            {{ d }} —
-            {% if entries.get(d) %}
-              ✔️ Compilato
-            {% else %}
-              ➕ Vuoto
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Dashboard · H3althlog{% endblock %}
+
+{% block content %}
+
+
+<h1>{{ week_label }}</h1>
+
+<div class="week-bar">
+  <a href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
+  <a href="{{ url_for('main.dashboard') }}">Oggi</a>
+  <a href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
+</div>
+
+
+<!-- Intestazione giorni -->
+<div class="week-grid">
+  {% for d in week_days %}
+    <div class="day-header">{{ d.strftime('%a')|capitalize }}</div>
+  {% endfor %}
+</div>
+
+<!-- Box date -->
+{% set today = current_date %}
+<div class="week-grid">
+  {% for d in week_days %}
+    {% set classes = ["day-box"] %}
+    {% if entries.get(d) %}
+      {% set _ = classes.append("day-ok") %}
+    {% else %}
+      {% set _ = classes.append("day-empty") %}
+    {% endif %}
+    {% if d == today %}
+      {% set _ = classes.append("day-today") %}
+    {% endif %}
+
+    <a href="{% if entries.get(d) %}
+                {{ url_for('entries.edit_entry', entry_date=d.isoformat()) }}
+              {% else %}
+                {{ url_for('entries.new_entry') }}?date={{ d.isoformat() }}
+              {% endif %}"
+       class="{{ ' '.join(classes) }}">
+      {{ d.strftime('%d/%m') }}
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}
