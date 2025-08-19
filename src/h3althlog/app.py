@@ -41,3 +41,9 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(main_bp)
 
 app.register_blueprint(entries_bp)
+
+
+@app.get("/_healthz")
+def _healthz():
+    from flask import request
+    return {"ok": True, "path": request.path, "script_root": request.script_root}
