@@ -19,58 +19,36 @@
     <h1>Ciao {{ user }} 👋</h1>
     <p>Benvenuto nella tua dashboard!</p>
 
-    <div class="week-bar">
-      <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
-      <div class="week-title">{{ week_label }}</div>
-      <div style="display:flex; gap:.5rem;">
-        <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
-        <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
-      </div>
-    </div>
+<div class="week-bar">
+  <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
+  <div class="week-title">{{ week_label }}</div>
+  <div style="display:flex; gap:.5rem;">
+    <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
+    <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
+  </div>
+</div>
 
-    <div class="days">
-      {% for d in week_days %}
-        <div class="day-name">{{ d.strftime('%a %d %b')|lower().capitalize() }}</div>
-        <div>
-          {% if entries.get(d) %}
-            <span class="badge badge-ok">✔️ Compilato</span>
-          {% else %}
-            <span class="badge badge-new">➕ Vuoto</span>
-          {% endif %}
-        </div>
-        <div>
-          {% if entries.get(d) %}
-            <a class="btn" href="{{ url_for('main.edit_entry', date=d.isoformat()) }}">Apri</a>
-          {% else %}
-            <a class="btn" href="{{ url_for('main.new_entry') }}?date={{ d.isoformat() }}">Apri</a>
-          {% endif %}
-        </div>
-      {% endfor %}
+<div class="days">
+  {% for d in week_days %}
+    <div class="day-name">{{ d.strftime('%a %d %b')|lower().capitalize() }}</div>
+    <div>
+      {% if entries.get(d) %}
+        <span class="badge badge-ok">✔️ Compilato</span>
+      {% else %}
+        <span class="badge badge-new">➕ Vuoto</span>
+      {% endif %}
     </div>
-
-
-    <div class="card">
-      <h3>Qualità pasti & Tendenza Dieta</h3>
-      <ul>
-        <li>🥐 Colazione: {{ meals.colazione.quality }} | {{ meals.colazione.diet }}</li>
-        <li>🍝 Pranzo: {{ meals.pranzo.quality }} | {{ meals.pranzo.diet }}</li>
-        <li>🥗 Cena: {{ meals.cena.quality }} | {{ meals.cena.diet }}</li>
-      </ul>
+    <div>
+      {% if entries.get(d) %}
+        <a class="btn" href="{{ url_for('main.edit_entry', date=d.isoformat()) }}">Apri</a>
+      {% else %}
+        <a class="btn" href="{{ url_for('main.new_entry') }}?date={{ d.isoformat() }}">Apri</a>
+      {% endif %}
     </div>
-    <div class="card">
-      <h3>Umore medio</h3>
-      <p>{{ mood_label }}</p>
-    </div>
- 
-    <div class="card">
-      <h3>Passi medi</h3>
-      <p>{{ steps_label }}</p>
-    </div>
+  {% endfor %}
+</div>
 
 
-    <a href="{{ url_for('main.new_entry') }}" class="btn btn-primary">
-    ➕ Aggiungi giornata
-    </a>
 
     <p><a href="{{ url_for('auth.logout') }}">Logout</a></p>
   </body>

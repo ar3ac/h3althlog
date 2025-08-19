@@ -18,7 +18,7 @@ def dashboard():
     from datetime import timedelta, date as dt_date
     from flask import request
 
-    # --- calcolo settimana corrente o da query ---
+    # data di partenza (oggi o da query)
     start_str = request.args.get("start")
     try:
         start_date = dt_date.fromisoformat(
@@ -26,33 +26,25 @@ def dashboard():
     except ValueError:
         start_date = dt_date.today()
 
-    # Label e giorni della settimana (usa le tue utils)
+    # label e giorni
     week_label = get_week_label(today=start_date)
     week_days = get_week_days(today=start_date)
 
-    # Recupera entries della settimana
-    entries_list = get_week_entries(start=start_date)
+    # entries della settimana
+    entries_list = get_week_entries(start_date)
     entries_map = {e.date: e for e in entries_list}
 
-    # Link navigazione
+    # link navigazione
     prev_start = start_date - timedelta(days=7)
     next_start = start_date + timedelta(days=7)
 
-    # Calcoli già esistenti
-    meals = get_meals_with_diet(entries_list)
-    mood_label = get_mood_label(entries_list)
-    steps_label = get_steps_label(entries_list)
-
     return render_template(
         "dashboard.html",
-        user=session.get("user"),   # o come passi il nome
+        user=session.get("user"),
         week_label=week_label,
         week_days=week_days,
-        entries=entries_map,        # <--- dict usato nel template
+        entries=entries_map,        # dict → template usa entries.get(d)
         prev_start=prev_start,
         next_start=next_start,
         start_date=start_date,
-        meals=meals,
-        mood_label=mood_label,
-        steps_label=steps_label,
     )
