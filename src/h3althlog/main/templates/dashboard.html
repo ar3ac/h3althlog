@@ -32,7 +32,14 @@
       </li>
     {% endfor %}
   </ul>
-
+<div class="week-bar">
+  <a class="btn" href="{{ url_for('main.dashboard', start=prev_start.isoformat()) }}">← Settimana precedente</a>
+  <div class="week-title">{{ week_label }}</div>
+  <div>
+    <a class="btn" href="{{ url_for('main.dashboard') }}">Oggi</a>
+    <a class="btn" href="{{ url_for('main.dashboard', start=next_start.isoformat()) }}">Settimana successiva →</a>
+  </div>
+</div>
     <div class="card">
       <h3>Qualità pasti & Tendenza Dieta</h3>
       <ul>
