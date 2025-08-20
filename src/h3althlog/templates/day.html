@@ -11,15 +11,15 @@
   <div class="section-title">🍽 Pasti</div>  {# <- niente variation selector, niente “pallini” strani #}
   <div class="grid-3">
     <div>Colazione</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.breakfast_quality) }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.breakfast_quality) if entry.breakfast_quality else "🤷 Nessun dato" }}</div>
     <div class="meal-diet">{{ get_diet_label(entry.breakfast_diet) if entry.breakfast_diet else "🤷 Nessun dato" }}</div>
 
     <div>Pranzo</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.lunch_quality) }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.lunch_quality) if entry.lunch_quality else "🤷 Nessun dato" }}</div>
     <div class="meal-diet">{{ get_diet_label(entry.lunch_diet) if entry.lunch_diet else "🤷 Nessun dato" }}</div>
 
     <div>Cena</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.dinner_quality) }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.dinner_quality) if entry.dinner_quality else "🤷 Nessun dato" }}</div>
     <div class="meal-diet">{{ get_diet_label(entry.dinner_diet) if entry.dinner_diet else "🤷 Nessun dato" }}</div>
   </div>
 
