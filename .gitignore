@@ -12,4 +12,4 @@ wheels/
 .env
 
 .vscode/
-instance/
+src/h3althlog/instance/
