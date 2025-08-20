@@ -27,10 +27,10 @@
   <div class="section-title">😊 Umore & altro</div>
   <div class="grid-2">
     <div>Umore</div>
-    <div>{{ get_single_mood_label(entry.mood) }}</div>
+    <div>{{ get_single_mood_label(entry.mood) if entry.mood else "🤷 Nessun dato" }}</div>
 
     <div>Qualità 💩</div>
-    <div>{{ get_poop_label(entry.poop_quality) }}</div>
+    <div>{{ get_poop_label(entry.poop_quality) if entry.poop_quality else "🤷 Nessun dato" }}</div>
 
     <div>Farmaci</div>
     <div>{{ entry.medications or "Nessuno" }}</div>
