@@ -75,7 +75,7 @@ def day_view(day):
         from .utils import get_entry_steps
         steps_label = get_entry_steps(entry.steps)
     else:
-        return redirect(url_for("main.new_entry", date_str=day.isoformat()))
+        return redirect(url_for("main.new_entry", date=day.isoformat()))
     
     return render_template(
         "day.html",
