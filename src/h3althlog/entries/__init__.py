@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp = Blueprint("entries", __name__, template_folder="templates")
+bp = Blueprint("entries", __name__)
 
 from . import routes  # noqa: F401

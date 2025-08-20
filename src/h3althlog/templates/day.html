@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ day.strftime('%A %d-%m-%Y') }} · H3althlog{% endblock %}
+
+{% block content %}
+<div class="page-day">
+<div class="page has-sticky-actions">  {# padding-bottom per non far coprire i contenuti dai bottoni #}
+
+  <h2 class="day-header">{{ day.strftime('%A %d-%m-%Y') }}</h2>
+
+  <!-- PASTI -->
+  <div class="section-title">🍽 Pasti</div>  {# <- niente variation selector, niente “pallini” strani #}
+  <div class="grid-3">
+    <div>Colazione</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.breakfast_quality) }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.breakfast_diet) if entry.breakfast_diet else "🤷 Nessun dato" }}</div>
+
+    <div>Pranzo</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.lunch_quality) }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.lunch_diet) if entry.lunch_diet else "🤷 Nessun dato" }}</div>
+
+    <div>Cena</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.dinner_quality) }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.dinner_diet) if entry.dinner_diet else "🤷 Nessun dato" }}</div>
+  </div>
+
+  <!-- UMORE / CACCA / FARMACI – 2 colonne -->
+  <div class="section-title">😊 Umore & altro</div>
+  <div class="grid-2">
+    <div>Umore</div>
+    <div>{{ get_single_mood_label(entry.mood) }}</div>
+
+    <div>Qualità 💩</div>
+    <div>{{ get_poop_label(entry.poop_quality) }}</div>
+
+    <div>Farmaci</div>
+    <div>{{ entry.medications or "Nessuno" }}</div>
+  </div>
+
+  <!-- COMMENTO -->
+  <div class="section-title">📝 Commento</div>
+  <p class="comment">{{ entry.comment or "Nessun commento" }}</p>
+
+  <!-- PASSI – 2 colonne -->
+  <div class="section-title">🚶 Passi</div>
+  <div class="grid-2">
+    <div>Totale</div>
+    <div>{{ steps_label }}</div>
+  </div>
+
+</div>  {# /.page #}
+
+<!-- Pulsanti fissi in basso (già presenti) -->
+<div class="day-actions">
+  <a href="{{ url_for('entries.edit_entry', entry_date=day.isoformat()) }}" class="btn edit">✏️ Modifica giornata</a>
+  <a href="{{ url_for('main.dashboard') }}" class="btn home">🏠 Torna alla dashboard</a>
+</div>
+
+</div>
+{% endblock %}

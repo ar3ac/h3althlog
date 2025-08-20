@@ -1,9 +1,13 @@
-from datetime import date as dt_date, timedelta
+from datetime import date as dt_date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
-from .utils import get_week_label, get_meals_with_diet, get_mood_label, get_steps_label, get_week_days
-from .services import get_week_entries
+from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label
+from .services import get_week_entries, week_meals_data
+from ..models import Entry, db
+import locale
 
+# Imposta italiano (solo se non già fatto altrove)
+locale.setlocale(locale.LC_TIME, "it_IT.utf8")
 
 @bp.route("/")
 def home():
@@ -37,6 +41,9 @@ def dashboard():
     # 5. Lista giorni della settimana
     week_days = get_week_days(today=start_date)
 
+    # Recupero dati settimana per il pranzo restituendo un dot colorato
+    week_data = week_meals_data()
+
     # 6. Recupero entries della settimana
     entries_list = get_week_entries()   # <-- usa la tua funzione services.py
     entries_map = {e.date: e for e in entries_list}
@@ -51,4 +58,30 @@ def dashboard():
         week_days=week_days,
         entries=entries_map,
         current_date=dt_date.today(),
+        week_data=week_data,
     )
+
+
+@bp.route("/day/<day>")
+def day_view(day):
+    day = datetime.strptime(day, "%Y-%m-%d").date()
+    entry = Entry.query.filter_by(date=day).first()
+
+    # etichetta leggibile tipo "Lunedì 18-08-2025"
+    day_label = day.strftime("%A %d-%m-%Y").capitalize()
+
+    steps_label = None
+    if entry:
+        from .utils import get_entry_steps
+        steps_label = get_entry_steps(entry.steps)
+    return render_template(
+        "day.html",
+        entry=entry,
+        day=day,
+        day_label=day_label,
+        get_diet_label=get_diet_label,
+        get_meal_quality_label=get_meal_quality_label,
+        steps_label=steps_label,
+        get_poop_label=get_poop_label,
+        get_single_mood_label=get_single_mood_label
+       )

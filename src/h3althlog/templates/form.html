@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ "Nuova giornata" if mode == "new" else "Modifica giornata" }} · H3althlog{% endblock %}
+
+{% block content %}
+<div class="page-day">
+<h1 class="day-header">{{ "Nuova giornata" if mode == "new" else "Modifica giornata" }}</h1>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <!-- Data -->
+    <div class="grid-2">
+        <label>{{ form.date.label }}</label>
+        {{ form.date(class="form-control") }}
+    </div>
+
+    <!-- Pasti -->
+    <h3 class="section-title">Pasti</h3>
+    <div class="grid-3">
+        <label>Colazione</label>
+        {{ form.breakfast_quality(class="form-control") }}
+        {{ form.breakfast_diet(class="form-control") }}
+    </div>
+    <div class="grid-3">
+        <label>Pranzo</label>
+        {{ form.lunch_quality(class="form-control") }}
+        {{ form.lunch_diet(class="form-control") }}
+    </div>
+    <div class="grid-3">
+        <label>Cena</label>
+        {{ form.dinner_quality(class="form-control") }}
+        {{ form.dinner_diet(class="form-control") }}
+    </div>
+
+    <!-- Benessere -->
+    <h3 class="section-title">Benessere</h3>
+    <div class="grid-2">
+        <label>{{ form.mood.label }}</label>
+        {{ form.mood(class="form-control") }}
+    </div>
+    <div class="grid-2">
+        <label>{{ form.poop_quality.label }}</label>
+        {{ form.poop_quality(class="form-control") }}
+    </div>
+    <div class="grid-2">
+        <label>{{ form.medications.label }}</label>
+        {{ form.medications(class="form-control", rows=2) }}
+    </div>
+
+    <!-- Attività -->
+    <h3 class="section-title">Attività</h3>
+    <div class="grid-2">
+        <label>{{ form.steps.label }}</label>
+        {{ form.steps(class="form-control") }}
+    </div>
+
+    <!-- Note -->
+    <h3 class="section-title">Note</h3>
+    <div>
+        {{ form.comment(class="form-control", rows=3) }}
+    </div>
+
+    <!-- Bottoni -->
+    <div class="day-actions">
+        <button type="submit" class="btn primary">💾 Salva</button>
+        <a href="{{ url_for('main.dashboard') }}" class="btn secondary">↩ Annulla</a>
+    </div>
+</form>
+</div>
+{% endblock %}

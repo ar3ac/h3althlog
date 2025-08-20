@@ -3,7 +3,7 @@
 {% block title %}Dashboard · H3althlog{% endblock %}
 
 {% block content %}
-
+<div class="page-week">
 
 <h1>{{ week_label }}</h1>
 
@@ -35,14 +35,21 @@
       {% set _ = classes.append("day-today") %}
     {% endif %}
 
-    <a href="{% if entries.get(d) %}
-                {{ url_for('entries.edit_entry', entry_date=d.isoformat()) }}
-              {% else %}
-                {{ url_for('entries.new_entry') }}?date={{ d.isoformat() }}
-              {% endif %}"
-       class="{{ ' '.join(classes) }}">
+    <a href="{{ url_for('main.day_view', day=d.isoformat()) }}"
+      class="{{ ' '.join(classes) }}">
       {{ d.strftime('%d/%m') }}
-    </a>
+
+
+      <!-- Pallini pasti -->
+  <div class="day-meals">
+    {% for color in week_data[d].meals %}
+      <span class="dot {{ color }}"></span>
+    {% endfor %}
+  </div>
+</a>
   {% endfor %}
+
+</div>
+
 </div>
 {% endblock %}

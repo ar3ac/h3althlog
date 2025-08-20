@@ -1,7 +1,4 @@
 from datetime import date, timedelta
-
-
-from datetime import date, timedelta
 import locale
 
 # Imposta la lingua italiana per i mesi
@@ -39,14 +36,31 @@ def get_week_days(today: date | None = None) -> list[date]:
     return [start + timedelta(days=i) for i in range(7)]
 
 
+def meal_quality_to_class(value: int | None) -> str:
+    """Converte valore qualità pasto in classe CSS (green, yellow, red, gray)."""
+    if value is None:
+        return "gray"
+    if value == 1:
+        return "green"
+    elif value == 2:
+        return "yellow"
+    elif value == 3:
+        return "red"
+    return "gray"
+
+
+
+
 def get_meal_quality_label(avg: float) -> str:
     """Trasforma la media numerica in etichetta + emoji."""
+    if avg is None:
+        return "🤷 Nessun dato"
     if avg < 1.5:
-        return "Ottima 🟢"
+        return "🟢 Ottima"
     elif avg < 2.5:
-        return "Normale 🟡"
+        return "🟡 Normale"
     else:
-        return "Scarsa 🔴"
+        return "🔴 Esagerata"
 
 
 # def get_meals_breakdown(colazione: list[int], pranzo: list[int], cena: list[int]) -> dict:
@@ -67,11 +81,11 @@ def get_meal_quality_label(avg: float) -> str:
 def get_diet_label(value: int) -> str:
     """Ritorna etichetta + emoji per una dieta singola."""
     mapping = {
-        1: "Vegano 🥦",
-        2: "Vegetariano 🥦🧀🍳",
-        3: "Pesce 🐟",
-        4: "Pollo 🍗",
-        5: "Carne rossa 🥩"
+        1: "🥦 Vegano",
+        2: "🥦🧀🍳 Vegetariano",
+        3: "🐟 Pesce",
+        4: "🍗 Pollo",
+        5: "🥩 Carne rossa"
     }
     return mapping.get(value, "N/A")
 
@@ -79,7 +93,7 @@ def get_diet_label(value: int) -> str:
 def get_diet_prevalence(values: list[int]) -> str:
     """Trova la dieta più frequente in una lista settimanale."""
     if not values:
-        return "Nessun dato 🤷"
+        return "🤷 Nessun dato"
     from collections import Counter
     most_common, _ = Counter(values).most_common(1)[0]
     return get_diet_label(most_common)
@@ -111,13 +125,13 @@ def get_meals_with_diet(colazione_q: list[int], pranzo_q: list[int], cena_q: lis
 MOOD_MAP = {"😊": 1, "😐": 2, "😞": 3}
 def get_mood_label(moods: list[str]) -> str:
     if not moods:
-        return "Nessun dato 🤷"
+        return "🤷 Nessun dato"
     nums = [MOOD_MAP.get(m, 2) for m in moods]  # default neutro se manca
     avg = sum(nums) / len(nums)
     if avg < 1.5:
         return "Positivo 😊"
     elif avg < 2.5:
-        return "Neutro 😐"
+        return "Normale 😐"
     else:
         return "Negativo 😞"
 
@@ -129,9 +143,44 @@ def get_steps_label(steps: list[int]) -> str:
     avg = int(sum(steps) / len(steps))
     formatted = f"{avg:,}".replace(",", ".")
     if avg >= 10000:
-        return f"🚶 {formatted} 🟢"
+        return f"{formatted} 🟢"
     else:
-        return f"🚶 {formatted} 🔴"
+        return f"{formatted} 🔴"
 
 
+def get_entry_steps(steps: int | None) -> str:
+    """Ritorna etichetta passi per una singola entry."""
+    if steps is None:
+        return "🤷 Nessun dato"
+    return get_steps_label([steps])  # riuso la funzione già pronta
 
+
+def get_poop_label(value: int | str | None) -> str:
+    """Ritorna etichetta + emoji per la qualità della cacca."""
+    if value is None:
+        return "Nessun dato 🤷"
+
+    try:
+        value = int(value)  # converte eventuali stringhe
+    except (ValueError, TypeError):
+        return "N/A"
+
+    mapping = {
+        1: "🟢 Molto Bene!",
+        2: "🟡 Normale",
+        3: "🔴 Not a good shit!",
+    }
+    return mapping.get(value, "N/A")
+
+
+def get_single_mood_label(value: int | None) -> str:
+    """Ritorna emoji + etichetta per l'umore giornaliero."""
+    if not value:
+        return "🤷 Nessun dato"
+
+    mapping = {
+        1 : "😊 Happy",
+        2 : "😐 Normale",
+        3 : "😞 Not a good day!",
+    }
+    return mapping.get(int(value), "N/A")
