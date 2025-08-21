@@ -21,11 +21,16 @@ class Entry(db.Model):
     dinner_diet = db.Column(db.Integer, nullable=True)
 
     # Altri dati
-    mood = db.Column(db.String(50))         # emoji o testo breve
+    mood = db.Column(db.String(50))          # emoji o testo breve
     poop_quality = db.Column(db.String(50))  # emoji o testo breve
     medications = db.Column(db.Text)
     comment = db.Column(db.Text)
     steps = db.Column(db.Integer)
+
+    # Nuovi campi opzionali
+    weight = db.Column(db.Float, nullable=True)          # kg
+    pressure_sys = db.Column(db.Integer, nullable=True)  # sistolica
+    pressure_dia = db.Column(db.Integer, nullable=True)  # diastolica
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(
@@ -34,24 +39,28 @@ class Entry(db.Model):
     def __repr__(self):
         return f"<Entry {self.date}>"
 
-    @staticmethod
-    def diet_labels():
-        """Mappatura codice → nome categoria."""
-        return {
-            1: "Vegano",
-            2: "Vegetariano",
-            3: "Pesce",
-            4: "Pollo",
-            5: "Carne rossa"
-        }
 
-    @staticmethod
-    def diet_colors():
-        """Mappatura codice → colore HEX."""
-        return {
-            1: "#4CAF50",  # Vegano
-            2: "#388E3C",  # Vegetariano
-            3: "#2E7D32",  # Pesce
-            4: "#FF9800",  # Pollo
-            5: "#F44336"   # Carne rossa
-        }
+
+
+
+    # @staticmethod
+    # def diet_labels():
+    #     """Mappatura codice → nome categoria."""
+    #     return {
+    #         1: "Vegano",
+    #         2: "Vegetariano",
+    #         3: "Pesce",
+    #         4: "Pollo",
+    #         5: "Carne rossa"
+    #     }
+
+    # @staticmethod
+    # def diet_colors():
+    #     """Mappatura codice → colore HEX."""
+    #     return {
+    #         1: "#4CAF50",  # Vegano
+    #         2: "#388E3C",  # Vegetariano
+    #         3: "#2E7D32",  # Pesce
+    #         4: "#FF9800",  # Pollo
+    #         5: "#F44336"   # Carne rossa
+    #     }

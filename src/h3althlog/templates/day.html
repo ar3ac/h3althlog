@@ -3,53 +3,70 @@
 
 {% block content %}
 <div class="page-day">
-<div class="page has-sticky-actions">  {# padding-bottom per non far coprire i contenuti dai bottoni #}
+<div class="page has-sticky-actions">
 
   <h2 class="day-header">{{ day.strftime('%A %d-%m-%Y') }}</h2>
 
   <!-- PASTI -->
-  <div class="section-title">🍽 Pasti</div>  {# <- niente variation selector, niente “pallini” strani #}
+  <div class="section-title">🍽 Pasti</div>
   <div class="grid-3">
     <div>Colazione</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.breakfast_quality) if entry.breakfast_quality else "🤷 Nessun dato" }}</div>
-    <div class="meal-diet">{{ get_diet_label(entry.breakfast_diet) if entry.breakfast_diet else "🤷 Nessun dato" }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.breakfast_quality) if entry.breakfast_quality else "–" }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.breakfast_diet) if entry.breakfast_diet else "–" }}</div>
 
     <div>Pranzo</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.lunch_quality) if entry.lunch_quality else "🤷 Nessun dato" }}</div>
-    <div class="meal-diet">{{ get_diet_label(entry.lunch_diet) if entry.lunch_diet else "🤷 Nessun dato" }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.lunch_quality) if entry.lunch_quality else "–" }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.lunch_diet) if entry.lunch_diet else "–" }}</div>
 
     <div>Cena</div>
-    <div class="meal-quality">{{ get_meal_quality_label(entry.dinner_quality) if entry.dinner_quality else "🤷 Nessun dato" }}</div>
-    <div class="meal-diet">{{ get_diet_label(entry.dinner_diet) if entry.dinner_diet else "🤷 Nessun dato" }}</div>
+    <div class="meal-quality">{{ get_meal_quality_label(entry.dinner_quality) if entry.dinner_quality else "–" }}</div>
+    <div class="meal-diet">{{ get_diet_label(entry.dinner_diet) if entry.dinner_diet else "–" }}</div>
   </div>
 
-  <!-- UMORE / CACCA / FARMACI – 2 colonne -->
+  <!-- UMORE / CACCA / FARMACI -->
   <div class="section-title">😊 Umore & altro</div>
   <div class="grid-2">
     <div>Umore</div>
-    <div>{{ get_single_mood_label(entry.mood) if entry.mood else "🤷 Nessun dato" }}</div>
+    <div>{{ get_single_mood_label(entry.mood) if entry.mood else "–" }}</div>
 
     <div>Qualità 💩</div>
-    <div>{{ get_poop_label(entry.poop_quality) if entry.poop_quality else "🤷 Nessun dato" }}</div>
+    <div>{{ get_poop_label(entry.poop_quality) if entry.poop_quality else "–" }}</div>
 
     <div>Farmaci</div>
-    <div>{{ entry.medications or "Nessuno" }}</div>
+    <div>{{ entry.medications or "–" }}</div>
   </div>
 
-  <!-- COMMENTO -->
-  <div class="section-title">📝 Commento</div>
-  <p class="comment">{{ entry.comment or "Nessun commento" }}</p>
+  <!-- PESO & PRESSIONE -->
+  <div class="section-title">⚖️ Peso & Pressione</div>
+  <div class="grid-2">
+    <div>Peso</div>
+    <div>{{ entry.weight if entry.weight else "–" }}{% if entry.weight %} kg{% endif %}</div>
+  </div>
+  <div class="grid-2">
+    <div>Pressione</div>
+    <div>
+      {% if entry.pressure_sys and entry.pressure_dia %}
+        {{ entry.pressure_sys }}/{{ entry.pressure_dia }} mmHg
+      {% else %}
+        –
+      {% endif %}
+    </div>
+  </div>
 
-  <!-- PASSI – 2 colonne -->
+  <!-- PASSI -->
   <div class="section-title">🚶 Passi</div>
   <div class="grid-2">
     <div>Totale</div>
-    <div>{{ steps_label }}</div>
+    <div>{{ steps_label if steps_label else "–" }}</div>
   </div>
 
-</div>  {# /.page #}
+  <!-- COMMENTO -->
+  <div class="section-title">📝 Note</div>
+  <p class="comment">{{ entry.comment or "–" }}</p>
 
-<!-- Pulsanti fissi in basso (già presenti) -->
+</div> <!-- /.page -->
+
+<!-- Pulsanti -->
 <div class="day-actions">
   <a href="{{ url_for('entries.edit_entry', entry_date=day.isoformat()) }}" class="btn edit">✏️ Modifica giornata</a>
   <a href="{{ url_for('main.dashboard') }}" class="btn home">🏠 Torna alla dashboard</a>

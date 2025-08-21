@@ -214,7 +214,7 @@ h1 {
 }
 
 .page-day .grid-2 {
-    grid-template-columns: 150px 1fr;
+    grid-template-columns: 120px 1fr;
 }
 
 .page-day .comment {
@@ -275,4 +275,13 @@ h1 {
     border-color: #1976d2;
     outline: none;
     box-shadow: 0 0 3px rgba(25, 118, 210, 0.3);
+}
+
+.day-form {
+    padding-bottom: 6rem;
+    /* spazio per non far coprire le note */
+}
+
+.form-submit {
+    margin-top: 1rem;
 }

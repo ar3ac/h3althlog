@@ -44,7 +44,10 @@ def new_entry():
             poop_quality=form.poop_quality.data,
             medications=form.medications.data,
             comment=form.comment.data,
-            steps=form.steps.data
+            steps=form.steps.data,
+            weight=form.weight.data,
+            pressure_sys=form.pressure_sys.data,
+            pressure_dia=form.pressure_dia.data,
         )
         db.session.add(entry)
         db.session.commit()
@@ -59,11 +62,14 @@ def edit_entry(entry_date):
     entry = Entry.query.filter_by(date=entry_date).first_or_404()
     form = EntryForm(obj=entry)
 
+
+    #print("POST ricevuto:", request.form)
+    print("Validazione:", form.validate_on_submit())
     if form.validate_on_submit():
         normalize_form_selects(form)
         form.populate_obj(entry)
         db.session.commit()
         flash("Giornata aggiornata!", "success")
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for("main.day_view", day=entry.date))
 
     return render_template("form.html", form=form, mode="edit")

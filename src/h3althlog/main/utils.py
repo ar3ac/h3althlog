@@ -81,10 +81,10 @@ def get_meal_quality_label(avg: float) -> str:
 def get_diet_label(value: int) -> str:
     """Ritorna etichetta + emoji per una dieta singola."""
     mapping = {
-        1: "🥦 Vegano",
-        2: "🥦🧀🍳 Vegetariano",
-        3: "🐟 Pesce",
-        4: "🍗 Pollo",
+        1: "🌱 Vegano     ",
+        2: "🥦 Vegetariano",
+        3: "🐟 Pesce      ",
+        4: "🍗 Pollo      ",
         5: "🥩 Carne rossa"
     }
     return mapping.get(value, "N/A")
@@ -122,18 +122,18 @@ def get_meals_with_diet(colazione_q: list[int], pranzo_q: list[int], cena_q: lis
 
 
 # --- UMORE ---
-MOOD_MAP = {"😊": 1, "😐": 2, "😞": 3}
+MOOD_MAP = {"😁": 1, "🙂": 2, "😔": 3}
 def get_mood_label(moods: list[str]) -> str:
     if not moods:
         return "🤷 Nessun dato"
     nums = [MOOD_MAP.get(m, 2) for m in moods]  # default neutro se manca
     avg = sum(nums) / len(nums)
     if avg < 1.5:
-        return "Positivo 😊"
+        return "😁 Happy"
     elif avg < 2.5:
-        return "Normale 😐"
+        return "🙂 Normale"
     else:
-        return "Negativo 😞"
+        return "😔 Bad Day"
 
 
 # --- PASSI ---
@@ -166,9 +166,9 @@ def get_poop_label(value: int | str | None) -> str:
         return "N/A"
 
     mapping = {
-        1: "🟢 Molto Bene!",
-        2: "🟡 Normale",
-        3: "🔴 Not a good shit!",
+        1: "😎 Showtime!",
+        2: "🙂 Normale",
+        3: "🤢 Pessima",
     }
     return mapping.get(value, "N/A")
 
@@ -179,8 +179,8 @@ def get_single_mood_label(value: int | None) -> str:
         return "🤷 Nessun dato"
 
     mapping = {
-        1 : "😊 Happy",
-        2 : "😐 Normale",
-        3 : "😞 Not a good day!",
+        1: "😀 Happy",
+        2: "🙂 Normale",
+        3: "😔 Bad Day",
     }
     return mapping.get(int(value), "N/A")
