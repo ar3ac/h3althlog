@@ -311,3 +311,9 @@ h1 {
         grid-template-columns: 108px 1fr;
     }
 }
+
+.day-subtitle {
+    font-size: .95rem;
+    color: #666;
+    margin-top: .25rem;
+}

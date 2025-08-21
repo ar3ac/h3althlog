@@ -3,16 +3,16 @@
 
 {% block content %}
 <div class="page-day">
-  <h1 class="day-header">{{ "Nuova giornata" if mode == "new" else "Modifica giornata" }}</h1>
+  <h1 class="day-header">
+    {{ "Nuova Giornata" if mode=="new" else "Modifica Giornata" }}
+    <div class="day-subtitle">{{ display_day }}</div>
+  </h1>
 
   <form method="POST" class="day-form">
       {{ form.hidden_tag() }}
-
+      {{ form.date(type="hidden") }}  {# teniamo la data invisibile per il submit #}
       <!-- Data -->
-      <div class="grid-2">
-          <label>{{ form.date.label }}</label>
-          {{ form.date(class="form-control") }}
-      </div>
+
 
       <!-- Pasti -->
       <h3 class="section-title">Pasti</h3>

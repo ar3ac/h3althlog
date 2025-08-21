@@ -20,6 +20,7 @@ def new_entry():
     form = EntryForm()
     # Se arriva ?date=YYYY-MM-DD, usala
     date_str = request.args.get("date")
+    day = dt_date.fromisoformat(date_str) if date_str else dt_date.today()
     if date_str:
         form.date.data = dt_date.fromisoformat(date_str)
     else:
@@ -46,23 +47,25 @@ def new_entry():
             comment=form.comment.data,
             steps=form.steps.data,
             weight=form.weight.data,
-            pressure_sys=form.pressure_sys.data,
+            pressure_sys=form.pressure_sys.data,    
             pressure_dia=form.pressure_dia.data,
         )
         db.session.add(entry)
         db.session.commit()
         flash("Giornata aggiunta!", "success")
         return redirect(url_for("main.dashboard"))
-
-    return render_template("form.html", form=form, mode="new")
+    
+    display_day = day.strftime("%A %d %B %Y").capitalize()
+    return render_template("form.html", form=form, mode="new", display_day=display_day)
 
 
 @bp.route("/<entry_date>/edit", methods=["GET", "POST"])
 def edit_entry(entry_date):
     entry = Entry.query.filter_by(date=entry_date).first_or_404()
     form = EntryForm(obj=entry)
-
-
+    form.date.data = entry.date
+    day = dt_date.fromisoformat(entry_date)
+    display_day = day.strftime("%A %d %B %Y").capitalize()
     #print("POST ricevuto:", request.form)
     print("Validazione:", form.validate_on_submit())
     if form.validate_on_submit():
@@ -70,6 +73,7 @@ def edit_entry(entry_date):
         form.populate_obj(entry)
         db.session.commit()
         flash("Giornata aggiornata!", "success")
-        return redirect(url_for("main.day_view", day=entry.date))
+        
+        return redirect(url_for("main.day_view", day=entry.date, display_day=display_day))
 
-    return render_template("form.html", form=form, mode="edit")
+    return render_template("form.html", form=form, mode="edit", display_day=display_day)
