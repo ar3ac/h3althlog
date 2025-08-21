@@ -103,12 +103,15 @@ class EntryForm(FlaskForm):
     )
     medications = TextAreaField("Farmaci", validators=[Optional()])
     comment = TextAreaField("Commento", validators=[Optional()])
-    steps = IntegerField("Passi", validators=[Optional()])
+    steps = IntegerField("Passi", validators=[Optional()],
+                         render_kw={"inputmode": "numeric", "pattern": "[0-9]*"})
 
-    weight = FloatCommaField("Peso (kg)", validators=[Optional()])
-    pressure_sys = IntegerField("Pressione sistolica (SYS)", validators=[Optional()])
-    pressure_dia = IntegerField("Pressione diastolica (DIA)", validators=[Optional()])
-
+    weight = FloatCommaField("Peso (kg)", validators=[Optional()],
+        render_kw={"inputmode": "decimal", "step": "0.1", "placeholder": "es. 85,4"})
+    pressure_sys = IntegerField("Pressione sistolica (SYS)", validators=[Optional()],
+                                render_kw={"inputmode": "numeric", "pattern": "[0-9]*", "placeholder": "es. 120"})
+    pressure_dia = IntegerField("Pressione diastolica (DIA)", validators=[Optional()],
+                                render_kw={"inputmode": "numeric", "pattern": "[0-9]*", "placeholder": "es. 80"})
 
     submit = SubmitField("Salva")
 

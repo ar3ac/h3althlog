@@ -87,9 +87,9 @@ h1 {
     }
 }
 
-/* =============================
-   DASHBOARD SETTIMANALE
-   ============================= */
+/* ============================= */
+/*   DASHBOARD SETTIMANALE       */
+/* ============================= */
 .page-week .week-bar {
     display: flex;
     justify-content: space-between;
@@ -181,9 +181,9 @@ h1 {
     background: #ccc;
 }
 
-/* =============================
-   PAGINA GIORNO
-   ============================= */
+/* ============================= */
+/*           PAGINA GIORNO       */
+/* ============================= */
 .page-day .day-header {
     text-align: center;
     font-size: 1.4rem;
@@ -195,17 +195,19 @@ h1 {
 .page-day .section-title {
     font-size: 1.2rem;
     font-weight: 600;
-    margin: 1.5rem 0 0.75rem 0;
+    margin: 1.25rem 0 .75rem;
+    /* più ritmo verticale */
     padding-left: 8px;
     border-left: 4px solid #1976d2;
     color: #222;
 }
 
+/* griglie + spaziature */
 .page-day .grid-3,
 .page-day .grid-2 {
     display: grid;
     gap: 10px;
-    margin: 0 1rem 1.5rem 1rem;
+    margin: 0 1rem 1.1rem;
     align-items: center;
 }
 
@@ -217,22 +219,33 @@ h1 {
     grid-template-columns: 120px 1fr;
 }
 
+/* colonna etichette più soft */
+.page-day .grid-3>div:nth-child(3n+1),
+.page-day .grid-2>div:nth-child(2n+1) {
+    color: #555;
+    font-weight: 500;
+}
+
 .page-day .comment {
     color: #666;
     font-style: italic;
 }
 
-/* Pulsanti azioni in basso */
+/* bottoni fissi in basso */
 .page-day .day-actions {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 10;
     background: #fff;
     padding: 0.8rem;
     display: flex;
     justify-content: space-around;
     border-top: 1px solid #ddd;
+    padding-bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+    /* safe-area */
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, .04);
 }
 
 .page-day .btn {
@@ -240,7 +253,7 @@ h1 {
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
-    color: white;
+    color: #fff;
     flex: 1;
     margin: 0 0.3rem;
     text-align: center;
@@ -254,16 +267,18 @@ h1 {
     background: #28a745;
 }
 
-@media (max-width: 600px) {
+@media (max-width:600px) {
     .page-day .btn {
         font-size: 0.9rem;
         padding: 0.5rem;
     }
 }
 
-/* Stile per input, select, textarea */
+/* inputs/select/textarea */
 .form-control {
     width: 100%;
+    min-height: 44px;
+    /* touch-friendly */
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 6px;
@@ -277,11 +292,22 @@ h1 {
     box-shadow: 0 0 3px rgba(25, 118, 210, 0.3);
 }
 
+/* spazio per non far coprire l’ultima sezione dai bottoni */
 .day-form {
-    padding-bottom: 6rem;
-    /* spazio per non far coprire le note */
+    padding-bottom: 6.5rem;
 }
 
 .form-submit {
     margin-top: 1rem;
+}
+
+/* tweak per schermi molto stretti */
+@media (max-width:400px) {
+    .page-day .grid-3 {
+        grid-template-columns: 108px 1fr 1fr;
+    }
+
+    .page-day .grid-2 {
+        grid-template-columns: 108px 1fr;
+    }
 }

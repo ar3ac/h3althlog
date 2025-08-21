@@ -48,13 +48,11 @@
           {{ form.weight.label }} {{ form.weight(class="form-control") }}
       </div>
 
-      <div class="grid-2">
-          {{ form.pressure_sys.label }} {{ form.pressure_sys(class="form-control") }}
-      </div>
-
-      <div class="grid-2">
-          {{ form.pressure_dia.label }} {{ form.pressure_dia(class="form-control") }}
-      </div>
+<div class="grid-3">
+  <div>Pressione</div>
+  {{ form.pressure_sys(class="form-control", placeholder="SYS") }}
+  {{ form.pressure_dia(class="form-control", placeholder="DIA") }}
+</div>
       <div class="grid-2">
           <label>{{ form.medications.label }}</label>
           {{ form.medications(class="form-control", rows=1) }}
