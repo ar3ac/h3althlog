@@ -40,7 +40,8 @@ def login():
     # Ok: segna la sessione e vai in dashboard
     session["user"] = username
     flash(f"Benvenuto, {username}!", "success")
-    return redirect(url_for("main.dashboard"))
+    return redirect(url_for("main.month_view"))
+    #return redirect(url_for("main.dashboard"))
 
 
 @bp.route("/logout")

@@ -483,16 +483,6 @@ h1 {
     min-height: 64px;
     border: 1px solid var(--border);
     transition: background .15s ease, border-color .15s ease;
-    color: inherit;
-        /* usa il colore del testo normale */
-        text-decoration: none;
-}
-
-.day:hover {
-            text-decoration: none;
-            /* disattiva underline anche all'hover */
-            cursor: pointer;
-            /* mano al passaggio, feedback link */
 }
 
 /* come week mode */
@@ -521,7 +511,7 @@ h1 {
 /* Giorni fuori mese: NON sbiadire tutto (sennò i pallini spariscono).
    Sbiadiamo solo i pallini e il numero, lasciando gli sfondi leggibili. */
 .day-out .day-hd {
-    opacity: .7;
+    opacity: .6;
 }
 
 .day-out .pill {
@@ -698,89 +688,9 @@ h1 {
     .day {
         min-height: 52px;
         border-radius: .7rem;
-        color: inherit;
-    /* usa il colore del testo normale */
-        text-decoration: none;
-    /* niente underline */
-}
+    }
 
     .day-hd {
         margin-bottom: .3rem;
     }
-
 }
-
-/* =========================================================
-   Vista Mensile (/month) — CLEAN
-   Coerente con week mode: palette, bordi, spaziature.
-   ========================================================= */
-
-/* Layout header mese */
-.month-header{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:0 8px;}
-.month-title{font-size:1.25rem;font-weight:600;}
-.month-actions .btn,.month-header .btn{padding:.4rem .7rem;border-radius:.75rem;}
-
-/* Padding laterale pagina (usa qualunque wrapper esistente senza rompere altre pagine) */
-.page-month,.month-wrap,.container{padding-left:12px;padding-right:12px;}
-
-/* Griglia mese */
-.month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.4rem;margin-top:.5rem;}
-
-/* Header giorni settimana */
-.dow{text-align:center;font-weight:600;opacity:.7;}
-
-/* Cella giorno (ancor tag) */
-.day{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
-     padding:.35rem .25rem;min-height:56px;border-radius:.75rem;border:1px solid var(--border);
-     background:#f5f5f5;transition:background .15s,border-color .15s,transform .05s;}
-.day:active{transform:scale(.985);}
-
-/* Stati – allineati alla weekly */
-.day-ok{background:#e0f2e9;border-color:#cce3d6;}
-.day-empty{background:#f5f5f5;border-color:#e0e0e0;}
-.day-today{box-shadow:0 0 0 2px rgba(144,202,249,.9) inset;}
-
-/* Giorni fuori mese: meno evidenti ma leggibili */
-.day-out{background:#fafafa;border-color:#ececec;}
-.day-out .day-hd{opacity:.25;}
-.day-out .pill{opacity:.35;}
-
-/* Numero del giorno centrato; più spazio ai pallini */
-.day-hd{font-weight:600;line-height:1;margin-bottom:.35rem;font-size:.95rem;}
-
-/* Riga pallini */
-.day-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:.25rem;align-items:center;margin-top:.1rem;}
-.pill{width:.7rem;height:.7rem;border-radius:50%;display:inline-block;box-sizing:border-box;}
-.pill.q1{background:var(--green);}  /* bene */
-.pill.q2{background:var(--yellow);} /* normale */
-.pill.q3{background:var(--red);}    /* male */
-.pill.q0{background:transparent;border:1px dashed rgba(0,0,0,.35);} /* vuoto visibile */
-
-/* Schermi stretti */
-@media (max-width:420px){
-  .month-grid{gap:.35rem;}
-  .day{min-height:52px;border-radius:.7rem;}
-  .day-hd{margin-bottom:.3rem;}
-}
-
-
-/* ===== Mobile polish for /month ===== */
-@media (max-width: 480px){
-  /* respiro ai lati senza toccare altre pagine */
-  .month-header{padding-left:10px;padding-right:10px;}
-  .month-grid{padding-left:10px;padding-right:10px;gap:.3rem;}
-
-  /* celle più compatte */
-  .day{min-height:48px;padding:.3rem .2rem;border-radius:.65rem;}
-
-  /* tipografia più piccola */
-  .month-title{font-size:1.1rem;}
-  .dow{font-size:.85rem;}
-  .day-hd{font-size:.9rem;margin-bottom:.25rem;}
-
-  /* pallini più piccoli */
-  .pill{width:.65rem;height:.65rem;}
-}
-
-/* Pallino non editato come in weekly: grigio pieno */
-.pill.q0{background:#ccc;border:none;}

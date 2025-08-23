@@ -51,5 +51,86 @@
 
 </div>
 
+<div class="cards charts-row">
+  <div class="card chart-card">
+    <h3>🍽 Colazione</h3>
+    {% if q_breakfast.total > 0 %}
+      <div class="chart-wrap chart-sm"><canvas id="chartBreakfast"></canvas></div>
+    {% else %}
+      <div class="muted">– Nessun dato –</div>
+    {% endif %}
+  </div>
+
+  <div class="card chart-card">
+    <h3>🍝 Pranzo</h3>
+    {% if q_lunch.total > 0 %}
+      <div class="chart-wrap chart-sm"><canvas id="chartLunch"></canvas></div>
+    {% else %}
+      <div class="muted">– Nessun dato –</div>
+    {% endif %}
+  </div>
+
+  <div class="card chart-card">
+    <h3>🥗 Cena</h3>
+    {% if q_dinner.total > 0 %}
+      <div class="chart-wrap chart-sm"><canvas id="chartDinner"></canvas></div>
+    {% else %}
+      <div class="muted">– Nessun dato –</div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="legend-inline">
+  <span class="dot green"></span> Bene
+  <span class="dot yellow"></span> Normale
+  <span class="dot red"></span> Male
+</div>
+
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  (function () {
+    const colors = ['#4caf50', '#fbc02d', '#f44336'];
+
+    function initDonut(canvasId, data) {
+      const el = document.getElementById(canvasId);
+      if (!el || !data || data.total === 0) return;
+      if (el.__chart) el.__chart.destroy();
+
+      el.__chart = new Chart(el.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: data.labels,        // ["Bene","Normale","Male"]
+          datasets: [{ data: data.data, backgroundColor: colors, borderWidth: 0 }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false, // usa l'altezza del wrapper
+          cutout: '55%',
+          resizeDelay: 200,
+          animation: { duration: 250 },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `${c.label}: ${c.parsed}` } }
+          }
+        }
+      });
+    }
+
+    const qb = {{ q_breakfast | tojson }};
+    const ql = {{ q_lunch     | tojson }};
+    const qd = {{ q_dinner    | tojson }};
+
+    initDonut('chartBreakfast', qb);
+    initDonut('chartLunch',     ql);
+    initDonut('chartDinner',    qd);
+  })();
+</script>
+
+
+
+
+
 </div>
 {% endblock %}

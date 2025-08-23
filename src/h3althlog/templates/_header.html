@@ -7,10 +7,10 @@
     ☰
   </label>
 
-  <nav>
-    <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
-    <a href="#">Statistiche</a>
-    <a href="#">Impostazioni</a>
-    <a href="{{ url_for('auth.logout') }}">Logout</a>
-  </nav>
+  <nav class="app-header">
+  <a href="{{ url_for('main.month_view') }}">Dashboard</a>
+  <a href="{{ url_for('main.dashboard') }}">Settimana</a>
+  <a href="{{ url_for('entries.new_entry') }}">Nuovo</a>
+  <a href="{{ url_for('auth.logout') }}">Logout</a>
+</nav>
 </header>

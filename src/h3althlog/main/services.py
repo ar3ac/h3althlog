@@ -1,3 +1,4 @@
+from collections import Counter
 from ..models import Entry
 from .utils import get_week_range, get_week_days, meal_quality_to_class
 from datetime import date
@@ -36,3 +37,23 @@ def week_meals_data(today=None):
             }
 
     return data
+
+
+def get_meal_quality_counts(start: date, end: date, meal: str) -> dict:
+    """
+    Conteggi settimanali della qualità per un pasto ('breakfast'|'lunch'|'dinner').
+    Ritorna {labels, data, total} con ordine Bene(1), Normale(2), Male(3).
+    """
+    if meal not in {"breakfast", "lunch", "dinner"}:
+        raise ValueError("meal deve essere 'breakfast'|'lunch'|'dinner'")
+
+    col = getattr(Entry, f"{meal}_quality")
+    rows = (Entry.query
+            .with_entities(col)
+            .filter(Entry.date >= start, Entry.date <= end)
+            .all())
+
+    vals = [r[0] for r in rows if r[0] is not None]
+    c = Counter(vals)
+    data = [c.get(1, 0), c.get(2, 0), c.get(3, 0)]
+    return {"labels": ["Bene", "Normale", "Male"], "data": data, "total": sum(data)}
