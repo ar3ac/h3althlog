@@ -61,7 +61,7 @@ def new_entry():
         db.session.add(entry)
         db.session.commit()
         flash("Giornata aggiunta!", "success")
-        return redirect(url_for("main.dashboard", day=day.isoformat()))
+        return redirect(url_for("main.month_view", day=day.isoformat()))
 
     display_day = day.strftime("%A %d %B %Y").capitalize()
     return render_template("form.html", form=form, mode="new",
@@ -98,7 +98,7 @@ def edit_entry(entry_date):
 
         db.session.commit()
         flash("Giornata aggiornata!", "success")
-        return redirect(url_for("main.dashboard", day=day.isoformat()))
+        return redirect(url_for("main.month_view", day=day.isoformat()))
 
     display_day = day.strftime("%A %d %B %Y").capitalize()
     return render_template("form.html", form=form, mode="edit",
