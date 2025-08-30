@@ -4,32 +4,74 @@
     <meta charset="utf-8">
     <title>H3althlog · Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {# collega il tuo CSS principale, se non già incluso globalmente #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   </head>
-  <body>
-    <h1>H3althlog – Login</h1>
+  <body class="auth-body">
+    <main class="auth-wrap">
+      <section class="auth-card" role="form" aria-labelledby="auth-title">
+        <header class="auth-header">
+          <div class="brand">H3althlog</div>
+          <p id="auth-title" class="auth-subtitle">Accedi per continuare</p>
+        </header>
 
-    <!-- Messaggi (opzionale, utili per feedback) -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for m in messages %}
-            <li>{{ m }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+        {# Messaggi flash #}
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="auth-flash" role="status" aria-live="polite">
+              {% for m in messages %}
+                <li>{{ m }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
 
-    <form method="post" action="{{ url_for('auth.login') }}">
-      <div>
-        <label for="username">Utente</label>
-        <input id="username" name="username" type="text" required autocomplete="username">
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password" required autocomplete="current-password">
-      </div>
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-      <button type="submit">Entra</button>
-    </form>
+        <form method="post" action="{{ url_for('auth.login') }}" class="auth-form" novalidate>
+          <div class="field">
+            <label for="username">Utente</label>
+            <div class="input-wrap">
+              <span class="input-ico" aria-hidden="true">👤</span>
+              <input id="username" name="username" type="text" class="form-control"
+                     required autocomplete="username" inputmode="email">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <span class="input-ico" aria-hidden="true">🔒</span>
+              <input id="password" name="password" type="password" class="form-control"
+                     required autocomplete="current-password">
+              <button class="pw-toggle" type="button" aria-label="Mostra o nascondi password">Mostra</button>
+            </div>
+          </div>
+
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+          <div class="auth-actions">
+            <button type="submit" class="btn btn-primary">Entra</button>
+          </div>
+        </form>
+
+        <footer class="auth-footer">
+          <small class="muted">Hai dimenticato la password? Contatta l’amministratore.</small>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+      // Toggle mostra/nascondi password (no dipendenze)
+      (function () {
+        const btn = document.querySelector('.pw-toggle');
+        const input = document.getElementById('password');
+        if (btn && input) {
+          btn.addEventListener('click', function () {
+            const isPw = input.type === 'password';
+            input.type = isPw ? 'text' : 'password';
+            this.textContent = isPw ? 'Nascondi' : 'Mostra';
+          });
+        }
+      })();
+    </script>
   </body>
 </html>
