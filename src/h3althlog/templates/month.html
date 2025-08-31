@@ -53,9 +53,7 @@
       </div>
       <div class="day-icons">
         {% if view_mode == 'steps' and s is not none and s > 0 %}
-          <span class="day-icon steps-icon" title="Passi: {{ s }}">
-            👟<span class="steps-count">{{ format_steps_compact(s) }}</span>
-          </span>
+          <span class="day-data-text" title="Passi: {{ s }}">{{ format_steps_full(s) }}</span>
         {% elif view_mode == 'weight' and w is not none and w > 0 %}
           <span class="day-icon weight-icon" title="Peso: {{ w }} kg">⚖️</span>
         {% elif view_mode == 'diet' and entry_data %}

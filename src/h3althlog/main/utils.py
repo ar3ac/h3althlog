@@ -178,6 +178,14 @@ def format_steps_compact(steps: int | None) -> str:
     return f"{steps // 1000}k"
 
 
+def format_steps_full(steps: int | None) -> str:
+    """Formatta i passi con separatore delle migliaia (es. 12.345)."""
+    if not steps or steps <= 0:
+        return ""
+    # Formatta con la virgola e poi la sostituisce con un punto
+    return f"{steps:,}".replace(",", ".")
+
+
 def get_poop_label(value: int | str | None) -> str:
     """Ritorna etichetta + emoji per la qualità della cacca."""
     if value is None:
