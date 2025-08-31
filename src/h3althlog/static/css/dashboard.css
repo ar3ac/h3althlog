@@ -785,147 +785,16 @@ h1 {
 /* Pallino non editato come in weekly: grigio pieno */
 .pill.q0{background:#ccc;border:none;}
 
-/* =========================================================
-   AUTH (Login/Signup)
-   ========================================================= */
-.auth-body {
-    background: linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
-    min-height: 100dvh;
-    display: grid;
-    place-items: center;
+.month-header {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.auth-wrap {
-    width: 100%;
-    max-width: 420px;
-    padding: 16px;
-    box-sizing: border-box;
-}
-
-.auth-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: calc(var(--radius) + 4px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
-    padding: 1.1rem;
-}
-
-.auth-header {
-    text-align: center;
-    margin-bottom: .75rem;
-}
-
-.auth-subtitle {
-    margin: .25rem 0 0 0;
-    color: var(--text-soft);
-    font-size: .95rem;
-}
-
-.auth-flash {
-    list-style: none;
-    padding: .6rem .75rem;
-    margin: 0 0 .75rem 0;
-    border-radius: 8px;
-    background: #fff8e1;
-    border: 1px solid #ffe082;
-    color: #6d4c41;
-}
-
-.auth-form .field {
-    margin-bottom: .8rem;
-}
-
-.auth-form label {
-    display: block;
-    font-weight: 600;
-    font-size: .95rem;
-    margin-bottom: .25rem;
-    color: var(--text);
-}
-
-.input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.input-wrap .form-control {
-    padding-left: 2.25rem;
-    /* spazio per icona */
-    padding-right: 4.25rem;
-    /* spazio per bottone Mostra */
-}
-
-.input-ico {
-    position: absolute;
-    left: .6rem;
-    font-size: 1.05rem;
-    opacity: .65;
-    pointer-events: none;
-}
-
-.pw-toggle {
-    position: absolute;
-    right: .4rem;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 1px solid var(--border);
-    background: #f7f7f7;
-    padding: .3rem .55rem;
-    border-radius: 6px;
-    font-size: .85rem;
-    cursor: pointer;
-}
-
-.pw-toggle:hover {
-    background: #f0f0f0;
-}
-
-.auth-actions {
-    margin-top: .25rem;
-    display: flex;
-    gap: .5rem;
-}
-
-.btn {
-    display: inline-block;
-    width: 100%;
-    padding: .7rem 1rem;
-    border-radius: 10px;
-    border: 0;
-    cursor: pointer;
-    font-weight: 700;
-    text-align: center;
-}
-
-.btn-primary {
-    background: var(--blue);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(25, 118, 210, .25);
-    transition: transform .04s ease, box-shadow .2s ease, background .2s ease;
-}
-
-.btn-primary:hover {
-    background: var(--blue-strong);
-}
-
-.btn-primary:active {
-    transform: translateY(1px);
-}
-
-.auth-footer {
-    margin-top: .75rem;
-    text-align: center;
-}
-
-/* Riduzione padding su schermi molto piccoli */
-@media (max-width: 380px) {
-    .auth-card {
-        padding: .9rem;
-    }
-
-    .input-wrap .form-control {
-        padding-left: 2rem;
-        padding-right: 3.8rem;
-    }
+.month-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
