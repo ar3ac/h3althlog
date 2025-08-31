@@ -791,6 +791,7 @@ h1 {
     background-color: #f7f7f7;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
 }
 
 .month-title {
@@ -799,26 +800,3 @@ h1 {
     margin-bottom: 0.5rem;
 }
 
-.month-nav a {
-    text-decoration: none;
-}
-
-.month-nav a::before {
-    content: "-->";
-    margin-right: 0.5rem;
-}
-
-.month-nav a.month-prev::before {
-    content: "<--";
-    margin-right: 0.5rem;
-}
-
-.month-prev::after {
-    content: "-->";
-    margin-left: 0.5rem;
-}
-
-.month-next::after {
-    content: "-->";
-    margin-left: 0.5rem;
-}
