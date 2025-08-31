@@ -90,6 +90,16 @@ def get_diet_label(value: int) -> str:
     return mapping.get(value, "N/A")
 
 
+def get_diet_icon(value: int | None) -> str:
+    """Ritorna solo l'emoji per una dieta singola."""
+    if value is None:
+        return ""
+    mapping = {
+        1: "🌱", 2: "🥦", 3: "🐟", 4: "🍗", 5: "🥩"
+    }
+    return mapping.get(value, "")
+
+
 def get_diet_prevalence(values: list[int]) -> str:
     """Trova la dieta più frequente in una lista settimanale."""
     if not values:

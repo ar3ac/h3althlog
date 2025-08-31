@@ -793,6 +793,19 @@ h1 {
   opacity: .7;
 }
 
+/* Icone dieta (3 in riga) */
+.day-diet-icons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .25rem;
+  width: 100%;
+  padding: 0 .5rem; /* Evita che le icone tocchino i bordi */
+  box-sizing: border-box;
+}
+.diet-icon {
+  font-size: .8rem;
+}
+
 /* ===== Mobile polish for /month ===== */
 @media (max-width: 480px){
   /* respiro ai lati senza toccare altre pagine */

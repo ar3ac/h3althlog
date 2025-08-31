@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
-from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range
+from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon
 from .services import get_week_entries, week_meals_data, get_meal_quality_counts
 from ..models import Entry, db
 from .utils_month import get_month_weeks, month_label, get_month_range
@@ -127,14 +127,18 @@ def month_view():
             Entry.dinner_quality,
             Entry.steps,
             Entry.weight,
+            Entry.breakfast_diet,
+            Entry.lunch_diet,
+            Entry.dinner_diet,
         )
         .filter(Entry.date.between(start, end))
         .all()
     )
 
-    # { date: (b, l, d, steps, weight) }
+    # { date: (b_q, l_q, d_q, steps, weight, b_d, l_d, d_d) }
     entries_map = {
-        row[0]: (row[1], row[2], row[3], row[4], row[5]) for row in month_entries
+        row[0]: (row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8])
+        for row in month_entries
     }
 
     return render_template(
@@ -147,4 +151,6 @@ def month_view():
         next=(next_y, next_m),
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
+        get_diet_icon=get_diet_icon,
+        get_diet_label=get_diet_label,
     )

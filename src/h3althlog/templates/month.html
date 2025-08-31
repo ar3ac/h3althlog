@@ -14,6 +14,8 @@
      class="toggle-btn {% if view_mode == 'steps' %}active{% endif %}">Passi</a>
   <a href="{{ url_for('main.month_view', y=y, m=m, view='weight') }}"
      class="toggle-btn {% if view_mode == 'weight' %}active{% endif %}">Peso</a>
+  <a href="{{ url_for('main.month_view', y=y, m=m, view='diet') }}"
+     class="toggle-btn {% if view_mode == 'diet' %}active{% endif %}">Dieta</a>
 </header>
 
 
@@ -29,6 +31,9 @@
     {% set c = entry_data[2] if entry_data else None %}
     {% set s = entry_data[3] if entry_data else None %}
     {% set w = entry_data[4] if entry_data else None %}
+    {% set bd = entry_data[5] if entry_data else None %}
+    {% set ld = entry_data[6] if entry_data else None %}
+    {% set cd = entry_data[7] if entry_data else None %}
 
     {% set classes = ['day'] %}
     {% if d == today %}{% set _ = classes.append('day-today') %}{% endif %}
@@ -51,6 +56,12 @@
           <span class="day-icon steps-icon" title="Passi: {{ s }}">👟</span>
         {% elif view_mode == 'weight' and w is not none and w > 0 %}
           <span class="day-icon weight-icon" title="Peso: {{ w }} kg">⚖️</span>
+        {% elif view_mode == 'diet' and entry_data %}
+          <div class="day-diet-icons">
+            <span class="diet-icon" title="{{ get_diet_label(bd) }}">{{ get_diet_icon(bd) }}</span>
+            <span class="diet-icon" title="{{ get_diet_label(ld) }}">{{ get_diet_icon(ld) }}</span>
+            <span class="diet-icon" title="{{ get_diet_label(cd) }}">{{ get_diet_icon(cd) }}</span>
+          </div>
         {% else %}
           {# Lascia lo spazio vuoto per mantenere l'allineamento #}
         {% endif %}
