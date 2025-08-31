@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <header class="month-header">
-  <a class="btn" href="{{ url_for('main.month_view', y=prev[0], m=prev[1]) }}" class="month-prev">« Prec</a>
+  <a class="btn" href="{{ url_for('main.month_view', y=prev[0], m=prev[1]) }}" class="month-prev">«--</a>
   <h1 class="month-title">{{ label }}</h1>
   <div class="month-actions">
 
-    <a class="btn" href="{{ url_for('main.month_view', y=next[0], m=next[1]) }}" class="month-next">Succ »</a>
+    <a class="btn" href="{{ url_for('main.month_view', y=next[0], m=next[1]) }}" class="month-next">--»</a>
   </div>
 </header>
 
