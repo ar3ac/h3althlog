@@ -10,12 +10,12 @@
   {# Se view_mode non è definito o è 'default', il primo è attivo #}
   <a href="{{ url_for('main.month_view', y=y, m=m) }}"
      class="toggle-btn {% if not view_mode or view_mode == 'default' %}active{% endif %}">Pasti</a>
+  <a href="{{ url_for('main.month_view', y=y, m=m, view='diet') }}"
+     class="toggle-btn {% if view_mode == 'diet' %}active{% endif %}">Dieta</a>
   <a href="{{ url_for('main.month_view', y=y, m=m, view='steps') }}"
      class="toggle-btn {% if view_mode == 'steps' %}active{% endif %}">Passi</a>
   <a href="{{ url_for('main.month_view', y=y, m=m, view='weight') }}"
      class="toggle-btn {% if view_mode == 'weight' %}active{% endif %}">Peso</a>
-  <a href="{{ url_for('main.month_view', y=y, m=m, view='diet') }}"
-     class="toggle-btn {% if view_mode == 'diet' %}active{% endif %}">Dieta</a>
 </header>
 
 

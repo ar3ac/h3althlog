@@ -784,14 +784,6 @@ h1 {
   justify-content: center;
   align-items: center;
 }
-.day-icon.steps-icon {
-  font-size: .8rem;
-  opacity: .7;
-}
-.day-icon.weight-icon {
-  font-size: .8rem;
-  opacity: .7;
-}
 
 /* Icone dieta (3 in riga) */
 .day-diet-icons {
@@ -802,8 +794,11 @@ h1 {
   padding: 0 .5rem; /* Evita che le icone tocchino i bordi */
   box-sizing: border-box;
 }
-.diet-icon {
-  font-size: .8rem;
+
+/* Unifica lo stile di tutte le icone dati (passi, peso, dieta) */
+.day-icon, .diet-icon {
+    font-size: .75rem; /* <-- Più piccolo, simile ai pills */
+    opacity: .8;
 }
 
 /* ===== Mobile polish for /month ===== */
