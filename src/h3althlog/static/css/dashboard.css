@@ -798,3 +798,17 @@ h1 {
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+
+.month-nav a {
+    text-decoration: none;
+}
+
+.month-nav a::before {
+    content: "-->";
+    margin-right: 0.5rem;
+}
+
+.month-nav a.month-prev::before {
+    content: "<--";
+    margin-right: 0.5rem;
+}
