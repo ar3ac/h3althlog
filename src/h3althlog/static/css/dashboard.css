@@ -18,6 +18,7 @@
     --green-dark: #388e3c;
     --yellow: #fbc02d;
     --red: #f44336;
+    --purple: #8e44ad; /* Aggiunto per il peso */
 
     --text: #333;
     --text-soft: #555;
@@ -819,6 +820,10 @@ h1 {
 .day-data-text.steps-bad {
     color: var(--red);
     opacity: .9; /* Leggermente meno aggressivo del rosso puro */
+}
+
+.day-data-text.weight-value {
+    color: var(--purple);
 }
 
 /* ===== Mobile polish for /month ===== */
