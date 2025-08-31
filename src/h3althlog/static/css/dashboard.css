@@ -459,11 +459,6 @@ h1 {
     font-weight: 600;
 }
 
-.month-actions .btn,
-.month-header .btn {
-    padding: .4rem .7rem;
-    border-radius: .75rem;
-}
 
 .month-grid {
     display: grid;
@@ -571,10 +566,7 @@ h1 {
     padding: 0 12px;
 }
 
-/* usa il selettore che hai nella base.html */
-.month-header {
-    padding: 0 4px;
-}
+
 
 /* leggero allineamento */
 
@@ -715,10 +707,7 @@ h1 {
    Coerente con week mode: palette, bordi, spaziature.
    ========================================================= */
 
-/* Layout header mese */
-.month-header{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:0 8px;}
-.month-title{font-size:1.25rem;font-weight:600;}
-.month-actions .btn,.month-header .btn{padding:.4rem .7rem;border-radius:.75rem;}
+
 
 /* Padding laterale pagina (usa qualunque wrapper esistente senza rompere altre pagine) */
 .page-month,.month-wrap,.container{padding-left:12px;padding-right:12px;}
