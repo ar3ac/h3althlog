@@ -459,6 +459,29 @@ h1 {
     font-weight: 600;
 }
 
+/* Toggle per la vista dati (passi, peso, etc) */
+.month-view-toggle {
+    display: flex;
+    justify-content: center;
+    gap: .25rem;
+    margin: .5rem 0 1rem 0;
+}
+.toggle-btn {
+    text-decoration: none;
+    padding: .3rem .8rem;
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    background: #f0f0f0;
+    transition: background .2s ease, color .2s ease;
+}
+.toggle-btn.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue-strong);
+}
 
 .month-grid {
     display: grid;
@@ -762,6 +785,10 @@ h1 {
   align-items: center;
 }
 .day-icon.steps-icon {
+  font-size: .8rem;
+  opacity: .7;
+}
+.day-icon.weight-icon {
   font-size: .8rem;
   opacity: .7;
 }

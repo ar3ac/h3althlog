@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
 <header class="month-header">
-  <a href="{{ url_for('main.month_view', y=prev[0], m=prev[1]) }}" class="month-prev">«--</a>
+  <a href="{{ url_for('main.month_view', y=prev[0], m=prev[1], view=view_mode) }}" class="month-prev">«--</a>
   <h1 class="month-title">{{ label }}</h1>
-  <a href="{{ url_for('main.month_view', y=next[0], m=next[1]) }}" class="month-next">--»</a>
+  <a href="{{ url_for('main.month_view', y=next[0], m=next[1], view=view_mode) }}" class="month-next">--»</a>
+</header>
+
+<header class="month-view-toggle">
+  {# Se view_mode non è definito o è 'default', il primo è attivo #}
+  <a href="{{ url_for('main.month_view', y=y, m=m) }}"
+     class="toggle-btn {% if not view_mode or view_mode == 'default' %}active{% endif %}">Pasti</a>
+  <a href="{{ url_for('main.month_view', y=y, m=m, view='steps') }}"
+     class="toggle-btn {% if view_mode == 'steps' %}active{% endif %}">Passi</a>
+  <a href="{{ url_for('main.month_view', y=y, m=m, view='weight') }}"
+     class="toggle-btn {% if view_mode == 'weight' %}active{% endif %}">Peso</a>
 </header>
 
 
@@ -18,6 +28,7 @@
     {% set l = entry_data[1] if entry_data else None %}
     {% set c = entry_data[2] if entry_data else None %}
     {% set s = entry_data[3] if entry_data else None %}
+    {% set w = entry_data[4] if entry_data else None %}
 
     {% set classes = ['day'] %}
     {% if d == today %}{% set _ = classes.append('day-today') %}{% endif %}
@@ -36,8 +47,12 @@
         <span class="pill q{{ c or 0 }}" title="Cena"></span>
       </div>
       <div class="day-icons">
-        {% if s is not none and s > 0 %}
+        {% if view_mode == 'steps' and s is not none and s > 0 %}
           <span class="day-icon steps-icon" title="Passi: {{ s }}">👟</span>
+        {% elif view_mode == 'weight' and w is not none and w > 0 %}
+          <span class="day-icon weight-icon" title="Peso: {{ w }} kg">⚖️</span>
+        {% else %}
+          {# Lascia lo spazio vuoto per mantenere l'allineamento #}
         {% endif %}
       </div>
     </a>

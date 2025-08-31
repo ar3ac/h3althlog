@@ -104,6 +104,8 @@ def day_view(day):
 @bp.route("/month")
 def month_view():
     y = request.args.get("y", type=int)
+    # Aggiungiamo il parametro 'view' per il toggle
+    view_mode = request.args.get("view")
     m = request.args.get("m", type=int)
     today = date.today()
     if not y or not m:
@@ -124,14 +126,15 @@ def month_view():
             Entry.lunch_quality,
             Entry.dinner_quality,
             Entry.steps,
+            Entry.weight,
         )
         .filter(Entry.date.between(start, end))
         .all()
     )
 
-    # { date: (b, l, d, steps) }
+    # { date: (b, l, d, steps, weight) }
     entries_map = {
-        row[0]: (row[1], row[2], row[3], row[4]) for row in month_entries
+        row[0]: (row[1], row[2], row[3], row[4], row[5]) for row in month_entries
     }
 
     return render_template(
@@ -143,4 +146,5 @@ def month_view():
         prev=(prev_y, prev_m),
         next=(next_y, next_m),
         today=today,
+        view_mode=view_mode,  # Passiamo la modalità al template
     )
