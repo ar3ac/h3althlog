@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
-from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon
+from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon, format_steps_compact
 from .services import get_week_entries, week_meals_data, get_meal_quality_counts
 from ..models import Entry, db
 from .utils_month import get_month_weeks, month_label, get_month_range
@@ -153,4 +153,5 @@ def month_view():
         view_mode=view_mode,  # Passiamo la modalità al template
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
+        format_steps_compact=format_steps_compact,
     )

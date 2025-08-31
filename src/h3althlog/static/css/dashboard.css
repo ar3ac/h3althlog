@@ -797,8 +797,18 @@ h1 {
 
 /* Unifica lo stile di tutte le icone dati (passi, peso, dieta) */
 .day-icon, .diet-icon {
-    font-size: .75rem; /* <-- Più piccolo, simile ai pills */
+    font-size: .75rem;
     opacity: .8;
+    display: inline-flex;
+    align-items: baseline;
+    gap: .2em;
+}
+
+.steps-count {
+    font-weight: 600;
+    font-size: 1.1em; /* Leggermente più grande per leggibilità */
+    letter-spacing: -0.5px;
+    color: var(--text-soft);
 }
 
 /* ===== Mobile polish for /month ===== */

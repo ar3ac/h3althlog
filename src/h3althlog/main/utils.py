@@ -165,6 +165,19 @@ def get_entry_steps(steps: int | None) -> str:
     return get_steps_label([steps])  # riuso la funzione già pronta
 
 
+def format_steps_compact(steps: int | None) -> str:
+    """Formatta i passi per una vista compatta (es. 9.8k, 12k)."""
+    if not steps or steps <= 0:
+        return ""
+    if steps < 1000:
+        return str(steps)
+    if steps < 10000:
+        # Formatta come "9.8k", ma "7.0k" diventa "7k"
+        return f"{steps / 1000:.1f}k".replace(".0", "")
+    # Formatta come "12k"
+    return f"{steps // 1000}k"
+
+
 def get_poop_label(value: int | str | None) -> str:
     """Ritorna etichetta + emoji per la qualità della cacca."""
     if value is None:
