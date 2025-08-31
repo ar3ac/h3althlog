@@ -15,6 +15,7 @@
     --blue: #1976d2;
     --blue-strong: #1565c0;
     --green: #4caf50;
+    --green-dark: #388e3c;
     --yellow: #fbc02d;
     --red: #f44336;
 
@@ -807,6 +808,15 @@ h1 {
     font-weight: 600;
     letter-spacing: -0.5px;
     color: var(--text-soft);
+}
+
+.day-data-text.steps-good {
+    color: var(--green-dark);
+}
+
+.day-data-text.steps-bad {
+    color: var(--red);
+    opacity: .9; /* Leggermente meno aggressivo del rosso puro */
 }
 
 /* ===== Mobile polish for /month ===== */
