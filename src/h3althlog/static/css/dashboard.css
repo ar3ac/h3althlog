@@ -812,3 +812,13 @@ h1 {
     content: "<--";
     margin-right: 0.5rem;
 }
+
+.month-prev::after {
+    content: "-->";
+    margin-left: 0.5rem;
+}
+
+.month-next::after {
+    content: "-->";
+    margin-left: 0.5rem;
+}
