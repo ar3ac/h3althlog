@@ -56,7 +56,7 @@
           <span class="day-data-text {% if s >= 10000 %}steps-good{% else %}steps-bad{% endif %}"
                 title="Passi: {{ s }}">{{ format_steps_full(s) }}</span>
         {% elif view_mode == 'weight' and w is not none and w > 0 %}
-          <span class="day-data-text weight-value" title="Peso: {{ w }} kg">{{ w }}</span>
+          <span class="day-data-text weight-value" title="Peso: {{ w }} kg">{{ format_weight(w) }}</span>
         {% elif view_mode == 'diet' and entry_data %}
           <div class="day-diet-icons">
             <span class="diet-icon" title="{{ get_diet_label(bd) }}">{{ get_diet_icon(bd) }}</span>

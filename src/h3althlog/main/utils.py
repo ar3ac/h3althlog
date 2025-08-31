@@ -186,6 +186,13 @@ def format_steps_full(steps: int | None) -> str:
     return f"{steps:,}".replace(",", ".")
 
 
+def format_weight(weight: float | None) -> str:
+    """Formatta il peso a due decimali, usando il punto come separatore."""
+    if not weight or weight <= 0:
+        return ""
+    return f"{weight:.2f}"
+
+
 def get_poop_label(value: int | str | None) -> str:
     """Ritorna etichetta + emoji per la qualità della cacca."""
     if value is None:
