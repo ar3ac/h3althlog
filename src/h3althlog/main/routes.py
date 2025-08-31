@@ -1,5 +1,4 @@
-from datetime import date as dt_date, timedelta, datetime
-from datetime import date
+from datetime import date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
 from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range
@@ -25,10 +24,10 @@ def dashboard():
     # prende il parametro start dall'url e lo converte da str a data
     start_str = request.args.get("start")
     try:
-        start_date = dt_date.fromisoformat(
-            start_str) if start_str else dt_date.today()
+        start_date = date.fromisoformat(
+            start_str) if start_str else date.today()
     except ValueError:
-        start_date = dt_date.today()
+        start_date = date.today()
 
     # Creare la label settimana
     week_label = get_week_label(today=start_date)
@@ -66,7 +65,7 @@ def dashboard():
         next_start=next_start,
         week_days=week_days,
         entries=entries_map,
-        current_date=dt_date.today(),
+        current_date=date.today(),
         week_data=week_data,
         q_breakfast=q_breakfast,
         q_lunch=q_lunch,
@@ -124,14 +123,15 @@ def month_view():
             Entry.breakfast_quality,
             Entry.lunch_quality,
             Entry.dinner_quality,
+            Entry.steps,
         )
         .filter(Entry.date.between(start, end))
         .all()
     )
 
-    # { date: (b, l, d) }
+    # { date: (b, l, d, steps) }
     entries_map = {
-        row[0]: (row[1], row[2], row[3]) for row in month_entries
+        row[0]: (row[1], row[2], row[3], row[4]) for row in month_entries
     }
 
     return render_template(

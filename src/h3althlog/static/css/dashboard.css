@@ -752,6 +752,19 @@ h1 {
   .day-hd{margin-bottom:.3rem;}
 }
 
+/* Icone extra nel giorno (es. passi) */
+.day-icons {
+  margin-top: .2rem;
+  height: 1em; /* Riserva spazio per evitare "salti" nel layout */
+  line-height: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.day-icon.steps-icon {
+  font-size: .8rem;
+  opacity: .7;
+}
 
 /* ===== Mobile polish for /month ===== */
 @media (max-width: 480px){

@@ -13,26 +13,32 @@
 
 {% for week in weeks %}
   {% for d in week %}
-    {% set triple = entries.get(d) %}
-    {% set b = triple[0] if triple else None %}
-    {% set l = triple[1] if triple else None %}
-    {% set c = triple[2] if triple else None %}
+    {% set entry_data = entries.get(d) %}
+    {% set b = entry_data[0] if entry_data else None %}
+    {% set l = entry_data[1] if entry_data else None %}
+    {% set c = entry_data[2] if entry_data else None %}
+    {% set s = entry_data[3] if entry_data else None %}
 
     {% set classes = ['day'] %}
     {% if d == today %}{% set _ = classes.append('day-today') %}{% endif %}
     {% if d.month != m %}{% set _ = classes.append('day-out') %}{% endif %}
-    {% if triple %}{% set _ = classes.append('day-ok') %}{% else %}{% set _ = classes.append('day-empty') %}{% endif %}
+    {% if entry_data %}{% set _ = classes.append('day-ok') %}{% else %}{% set _ = classes.append('day-empty') %}{% endif %}
 
     {# link diverso a seconda che esista o no l'entry #}
-    {% set href = url_for('main.day_view', day=d.isoformat()) if triple
-                 else url_for('entries.new_entry') + '?date=' + d.isoformat() %}
+    {% set href = url_for('main.day_view', day=d.isoformat()) if entry_data
+                 else url_for('entries.new_entry', date=d.isoformat()) %}
 
     <a class="{{ ' '.join(classes) }}" href="{{ href }}">
       <div class="day-hd">{{ d.day }}</div>
       <div class="day-pills">
-        <span class="pill {{ 'q1' if b==1 else 'q2' if b==2 else 'q3' if b==3 else 'q0' }}" title="Colazione"></span>
-        <span class="pill {{ 'q1' if l==1 else 'q2' if l==2 else 'q3' if l==3 else 'q0' }}" title="Pranzo"></span>
-        <span class="pill {{ 'q1' if c==1 else 'q2' if c==2 else 'q3' if c==3 else 'q0' }}" title="Cena"></span>
+        <span class="pill q{{ b or 0 }}" title="Colazione"></span>
+        <span class="pill q{{ l or 0 }}" title="Pranzo"></span>
+        <span class="pill q{{ c or 0 }}" title="Cena"></span>
+      </div>
+      <div class="day-icons">
+        {% if s is not none and s > 0 %}
+          <span class="day-icon steps-icon" title="Passi: {{ s }}">👟</span>
+        {% endif %}
       </div>
     </a>
   {% endfor %}
