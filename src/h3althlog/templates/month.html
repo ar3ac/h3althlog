@@ -4,7 +4,7 @@
   <a class="btn" href="{{ url_for('main.month_view', y=prev[0], m=prev[1]) }}">« Prec</a>
   <h1 class="month-title">{{ label }}</h1>
   <div class="month-actions">
-    {% comment %} <a class="btn" href="{{ url_for('main.month_view', y=today.year, m=today.month) }}">Oggi</a> {% endcomment %}
+
     <a class="btn" href="{{ url_for('main.month_view', y=next[0], m=next[1]) }}">Succ »</a>
   </div>
 </header>
