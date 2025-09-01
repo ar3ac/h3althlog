@@ -46,8 +46,17 @@
     {% if entry_data %}{% set _ = classes.append('day-ok') %}{% else %}{% set _ = classes.append('day-empty') %}{% endif %}
 
     {# link diverso a seconda che esista o no l'entry #}
-    {% set href = url_for('main.day_view', day=d.isoformat()) if entry_data
-                 else url_for('entries.new_entry', date=d.isoformat()) %}
+    {% set href = '' %}
+    {% if not entry_data %}
+      {# Se non c'è entry, vai sempre a creare una nuova #}
+      {% set href = url_for('entries.new_entry', date=d.isoformat()) %}
+    {% elif d == today %}
+      {# Se c'è entry ed è oggi, vai direttamente in modifica #}
+      {% set href = url_for('entries.edit_entry', entry_date=d.isoformat()) %}
+    {% else %}
+      {# Se c'è entry ma non è oggi, vai in visualizzazione #}
+      {% set href = url_for('main.day_view', day=d.isoformat()) %}
+    {% endif %}
 
     <a class="{{ ' '.join(classes) }}" href="{{ href }}">
       <div class="day-hd">{{ d.day }}</div>
