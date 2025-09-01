@@ -91,7 +91,7 @@ class EntryForm(FlaskForm):
     )
 
     poop_quality = SelectField(
-        "Qualità cacca",
+        "Poop",
         choices=[
             ("0", "--- Seleziona ---"), 
             (1, "😎 Showtime!"),
@@ -114,5 +114,3 @@ class EntryForm(FlaskForm):
                                 render_kw={"inputmode": "numeric", "pattern": "[0-9]*", "placeholder": "es. 80"})
 
     submit = SubmitField("Salva")
-
-

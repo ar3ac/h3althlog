@@ -194,7 +194,7 @@ def format_weight(weight: float | None) -> str:
 
 
 def get_poop_label(value: int | str | None) -> str:
-    """Ritorna etichetta + emoji per la qualità della cacca."""
+    """Ritorna etichetta + emoji per la poop quality."""
     if value is None:
         return "Nessun dato 🤷"
 
@@ -241,7 +241,7 @@ def get_mood_icon(value: int | str | None) -> str:
 
 
 def get_poop_icon(value: int | str | None) -> str:
-    """Ritorna solo l'emoji per la qualità della cacca."""
+    """Ritorna solo l'emoji per la poop quality."""
     if value is None:
         return ""
     try:
