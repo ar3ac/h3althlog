@@ -807,6 +807,8 @@ h1 {
 .day-icon {
     font-size: 1.1rem;
     line-height: 1;
+    position: relative;
+    top: 2px; /* Sposta l'emoji un po' in basso per centrarla meglio */
 }
 
 /* Stile per dati testuali (passi) */
