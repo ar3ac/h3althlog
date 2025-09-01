@@ -803,6 +803,12 @@ h1 {
     opacity: .8;
 }
 
+/* Emoji singole (umore, cacca) più grandi */
+.day-icon {
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
 /* Stile per dati testuali (passi) */
 .day-data-text {
     font-size: .85rem; /* <-- Più piccolo */

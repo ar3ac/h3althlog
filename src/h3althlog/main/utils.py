@@ -222,3 +222,31 @@ def get_single_mood_label(value: int | None) -> str:
         3: "😔 Bad Day",
     }
     return mapping.get(int(value), "N/A")
+
+
+def get_mood_icon(value: int | str | None) -> str:
+    """Ritorna solo l'emoji per l'umore."""
+    if value is None:
+        return ""
+    try:
+        value = int(value)
+    except (ValueError, TypeError):
+        return ""
+    mapping = {
+        1: "😀",
+        2: "🙂",
+        3: "😔",
+    }
+    return mapping.get(value, "")
+
+
+def get_poop_icon(value: int | str | None) -> str:
+    """Ritorna solo l'emoji per la qualità della cacca."""
+    if value is None:
+        return ""
+    try:
+        value = int(value)
+    except (ValueError, TypeError):
+        return ""
+    mapping = {1: "😎", 2: "🙂", 3: "🤢"}
+    return mapping.get(value, "")
