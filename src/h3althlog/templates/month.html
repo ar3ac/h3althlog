@@ -129,58 +129,49 @@
 {% if not view_mode or view_mode == 'default' %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-        console.log('Colazione:', {{ meal_chart_data.breakfast | tojson }});
-console.log('Pranzo:', {{ meal_chart_data.lunch | tojson }});
-console.log('Cena:', {{ meal_chart_data.dinner | tojson }});
-  // Usiamo una IIFE per non inquinare il global scope
-  (function () {
-    // Attende che la pagina sia completamente caricata
-    window.addEventListener("load", function() {
-      const colors = ['#4caf50', '#fbc02d', '#f44336'];
-      const labels = ['Ottima', 'Normale', 'Esagerata'];
+  // Questo script viene eseguito dopo che il DOM è stato caricato,
+  // quindi possiamo inizializzare i grafici direttamente.
 
-      function initDonut(canvasId, chartData) {
-        const el = document.getElementById(canvasId);
-        // Se non c'è l'elemento o non ci sono dati, non fare nulla
-        if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) return;
-        
-        // Distrugge un eventuale grafico precedente sullo stesso canvas
-        if (el.__chart) el.__chart.destroy();
+  const colors = ['#4caf50', '#fbc02d', '#f44336'];
+  const labels = ['Ottima', 'Normale', 'Esagerata'];
 
-        el.__chart = new Chart(el.getContext('2d'), {
-          type: 'doughnut',
-          data: {
-            labels: labels,
-            datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
-          },
-          options: {
-            responsive: false, // Disattiviamo il responsive che fallisce su questa pagina
-            // maintainAspectRatio: false, // Inutile con responsive: false
-            cutout: '75%', // Spessore della ciambella
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  label: (context) => {
-                    const label = context.label || '';
-                    const value = context.parsed || 0;
-                    const plural = value === 1 ? 'volta' : 'volte';
-                    return `${label}: ${value} ${plural}`;
-                  }
-                }
+  function initDonut(canvasId, chartData) {
+    const el = document.getElementById(canvasId);
+    if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) {
+      return; // Non fare nulla se non c'è il canvas o non ci sono dati
+    }
+
+    // Distrugge un grafico precedente se esiste, per evitare conflitti
+    if (el.__chart) el.__chart.destroy();
+
+    el.__chart = new Chart(el.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
+      },
+      options: {
+        responsive: false, // Impostazione chiave che risolve il bug di rendering in questa pagina
+        cutout: '75%',
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.parsed || 0;
+                return `${context.label}: ${value} ${value === 1 ? 'volta' : 'volte'}`;
               }
             }
           }
-        });
+        }
       }
-
-      // Inizializza i tre grafici con i dati passati dal backend
-      initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
-      initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
-      initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
-
     });
-  })();
+  }
+
+  // Inizializza i grafici
+  initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
+  initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
+  initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
 </script>
 {% endif %}
 {% endblock %}
