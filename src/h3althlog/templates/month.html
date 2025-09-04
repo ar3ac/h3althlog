@@ -129,6 +129,9 @@
 {% if not view_mode or view_mode == 'default' %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
+        console.log('Colazione:', {{ meal_chart_data.breakfast | tojson }});
+console.log('Pranzo:', {{ meal_chart_data.lunch | tojson }});
+console.log('Cena:', {{ meal_chart_data.dinner | tojson }});
   // Usiamo una IIFE per non inquinare il global scope
   (function () {
     // Attende che la pagina sia completamente caricata
@@ -175,9 +178,7 @@
       initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
       initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
       initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
-      console.log('Colazione:', {{ meal_chart_data.breakfast | tojson }});
-console.log('Pranzo:', {{ meal_chart_data.lunch | tojson }});
-console.log('Cena:', {{ meal_chart_data.dinner | tojson }});
+
     });
   })();
 </script>
