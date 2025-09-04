@@ -123,9 +123,8 @@
   {% endif %}
 </section>
 {% endif %}
-{% endblock %}
 
-{% block scripts %}
+{# Includiamo gli script qui dentro il blocco 'content' per assicurarci che vengano sempre renderizzati #}
 {% if not view_mode or view_mode == 'default' %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
