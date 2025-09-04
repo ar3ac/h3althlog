@@ -100,19 +100,19 @@
     <div class="card chart-card">
       <h3>Colazione</h3>
       <div class="chart-wrap chart-sm">
-        <div id="chartMonthBreakfast"></div>
+        <canvas id="chartMonthBreakfast"></canvas>
       </div>
     </div>
     <div class="card chart-card">
       <h3>Pranzo</h3>
       <div class="chart-wrap chart-sm">
-        <div id="chartMonthLunch"></div>
+        <canvas id="chartMonthLunch"></canvas>
       </div>
     </div>
     <div class="card chart-card">
       <h3>Cena</h3>
       <div class="chart-wrap chart-sm">
-        <div id="chartMonthDinner"></div>
+        <canvas id="chartMonthDinner"></canvas>
       </div>
     </div>
   </div>
@@ -127,54 +127,56 @@
 
 {% block scripts %}
 {% if not view_mode or view_mode == 'default' %}
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-window.addEventListener("load", function() {
-  // Opzioni comuni per i grafici a ciambella
-  const commonOptions = {
-    chart: {
-      type: 'donut',
-      sparkline: { enabled: true },
-      height: 80, // Forza l'altezza del grafico, bypassando problemi di rendering CSS
-    },
-    stroke: { width: 0 },
-    plotOptions: {
-      pie: {
-        donut: {
-          size: '75%',
-          labels: {
-            show: true,
-            total: {
-              show: true,
-              showAlways: true,
-              fontSize: '16px',
-              fontWeight: 600,
-              color: '#555'
+  // Usiamo una IIFE per non inquinare il global scope
+  (function () {
+    // Attende che la pagina sia completamente caricata
+    window.addEventListener("load", function() {
+      const colors = ['#4caf50', '#fbc02d', '#f44336'];
+      const labels = ['Ottima', 'Normale', 'Esagerata'];
+
+      function initDonut(canvasId, chartData) {
+        const el = document.getElementById(canvasId);
+        // Se non c'è l'elemento o non ci sono dati, non fare nulla
+        if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) return;
+        
+        // Distrugge un eventuale grafico precedente sullo stesso canvas
+        if (el.__chart) el.__chart.destroy();
+
+        el.__chart = new Chart(el.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: labels,
+            datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false, // Permette al grafico di riempire il contenitore (alto 80px)
+            cutout: '75%', // Spessore della ciambella
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (context) => {
+                    const label = context.label || '';
+                    const value = context.parsed || 0;
+                    const plural = value === 1 ? 'volta' : 'volte';
+                    return `${label}: ${value} ${plural}`;
+                  }
+                }
+              }
             }
           }
-        }
+        });
       }
-    },
-    colors: ['#4caf50', '#fbc02d', '#f44336'], // Verde, Giallo, Rosso
-    labels: ['Ottima', 'Normale', 'Esagerata'],
-    legend: { show: false },
-    tooltip: {
-      y: { formatter: (val) => `${val} ${val === 1 ? 'volta' : 'volte'}` }
-    }
-  };
 
-  // Funzione per creare un grafico se ci sono dati
-  function createChart(selector, seriesData) {
-    if (seriesData.reduce((a, b) => a + b, 0) > 0) {
-      const options = { ...commonOptions, series: seriesData };
-      new ApexCharts(document.querySelector(selector), options).render();
-    }
-  }
-
-  createChart("#chartMonthBreakfast", {{ meal_chart_data.breakfast | tojson }});
-  createChart("#chartMonthLunch", {{ meal_chart_data.lunch | tojson }});
-  createChart("#chartMonthDinner", {{ meal_chart_data.dinner | tojson }});
-});
+      // Inizializza i tre grafici con i dati passati dal backend
+      initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
+      initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
+      initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
+    });
+  })();
 </script>
 {% endif %}
 {% endblock %}
