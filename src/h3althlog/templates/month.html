@@ -135,6 +135,9 @@
   const colors = ['#4caf50', '#fbc02d', '#f44336'];
   const labels = ['Ottima', 'Normale', 'Esagerata'];
 
+  // DEBUG: Controlliamo se i dati arrivano correttamente dal backend
+  console.log("Dati per i grafici:", {{ meal_chart_data | tojson }});
+
   function initDonut(canvasId, chartData) {
     const el = document.getElementById(canvasId);
     if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) {
