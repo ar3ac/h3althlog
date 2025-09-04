@@ -132,7 +132,11 @@
 window.addEventListener("load", function() {
   // Opzioni comuni per i grafici a ciambella
   const commonOptions = {
-    chart: { type: 'donut', sparkline: { enabled: true } },
+    chart: {
+      type: 'donut',
+      sparkline: { enabled: true },
+      height: 80, // Forza l'altezza del grafico, bypassando problemi di rendering CSS
+    },
     stroke: { width: 0 },
     plotOptions: {
       pie: {
