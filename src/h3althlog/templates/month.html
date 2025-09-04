@@ -151,8 +151,8 @@
             datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false, // Permette al grafico di riempire il contenitore (alto 80px)
+            responsive: false, // Disattiviamo il responsive che fallisce su questa pagina
+            // maintainAspectRatio: false, // Inutile con responsive: false
             cutout: '75%', // Spessore della ciambella
             plugins: {
               legend: { display: false },
