@@ -407,7 +407,11 @@ h1 {
 /* puoi fare 76–90 a gusto */
 #chartBreakfast,
 #chartLunch,
-#chartDinner {
+#chartDinner,
+/* Aggiunti ID per i grafici mensili */
+#chartMonthBreakfast,
+#chartMonthLunch,
+#chartMonthDinner {
     display: block;
     width: 100% !important;
     height: 100% !important;
