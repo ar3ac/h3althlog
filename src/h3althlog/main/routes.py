@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
-from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon, format_steps_full, format_weight, get_mood_icon, get_poop_icon
+from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon, format_steps_full, format_weight, get_mood_icon, get_poop_icon, safe_average
 from .services import get_week_entries, week_meals_data, get_meal_quality_counts
 from ..models import Entry, db
 from .utils_month import get_month_weeks, month_label, get_month_range
@@ -142,6 +142,32 @@ def month_view():
         for row in month_entries
     }
 
+    # Calcolo medie mensili per i pasti
+    meal_stats = {}
+    if not view_mode or view_mode == 'default':
+        breakfast_q = [row.breakfast_quality for row in month_entries]
+        lunch_q = [row.lunch_quality for row in month_entries]
+        dinner_q = [row.dinner_quality for row in month_entries]
+
+        avg_breakfast = safe_average(breakfast_q)
+        avg_lunch = safe_average(lunch_q)
+        avg_dinner = safe_average(dinner_q)
+
+        meal_stats = {
+            "breakfast": {
+                "label": get_meal_quality_label(avg_breakfast),
+                "avg": f"{avg_breakfast:.2f}" if avg_breakfast is not None else "–"
+            },
+            "lunch": {
+                "label": get_meal_quality_label(avg_lunch),
+                "avg": f"{avg_lunch:.2f}" if avg_lunch is not None else "–"
+            },
+            "dinner": {
+                "label": get_meal_quality_label(avg_dinner),
+                "avg": f"{avg_dinner:.2f}" if avg_dinner is not None else "–"
+            }
+        }
+
     return render_template(
         "month.html",
         label=label,
@@ -152,6 +178,7 @@ def month_view():
         next=(next_y, next_m),
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
+        meal_stats=meal_stats,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,

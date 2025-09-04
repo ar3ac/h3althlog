@@ -36,6 +36,14 @@ def get_week_days(today: date | None = None) -> list[date]:
     return [start + timedelta(days=i) for i in range(7)]
 
 
+def safe_average(values: list) -> float | None:
+    """Calcola la media di una lista di numeri, ignorando i valori None."""
+    valid_values = [v for v in values if v is not None]
+    if not valid_values:
+        return None
+    return sum(valid_values) / len(valid_values)
+
+
 def meal_quality_to_class(value: int | None) -> str:
     """Converte valore qualità pasto in classe CSS (green, yellow, red, gray)."""
     if value is None:

@@ -90,5 +90,34 @@
 {% endfor %}
 
 
+ </section>
+
+{% if not view_mode or view_mode == 'default' %}
+<section class="month-summary">
+  <div class="card">
+    <h3>Riepilogo Pasti del Mese</h3>
+    {% if meal_stats and (meal_stats.breakfast.avg != '–' or meal_stats.lunch.avg != '–' or meal_stats.dinner.avg != '–') %}
+    <div class="summary-grid">
+      <div class="summary-item">
+        <div class="summary-label">Colazione</div>
+        <div class="summary-value">{{ meal_stats.breakfast.label }}</div>
+        <div class="summary-avg">(media: {{ meal_stats.breakfast.avg }})</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">Pranzo</div>
+        <div class="summary-value">{{ meal_stats.lunch.label }}</div>
+        <div class="summary-avg">(media: {{ meal_stats.lunch.avg }})</div>
+      </div>
+      <div class="summary-item">
+        <div class="summary-label">Cena</div>
+        <div class="summary-value">{{ meal_stats.dinner.label }}</div>
+        <div class="summary-avg">(media: {{ meal_stats.dinner.avg }})</div>
+      </div>
+    </div>
+    {% else %}
+    <p class="muted" style="text-align: center; margin-top: .5rem;">Nessun dato sui pasti disponibile per questo mese.</p>
+    {% endif %}
+  </div>
 </section>
+{% endif %}
 {% endblock %}

@@ -873,5 +873,52 @@ h1 {
 .month-next {
         font-size: 1.25rem;
             font-weight: 600;
-                text-decoration: none;
+    text-decoration: none;
+}
+
+/* =========================================================
+   Riepilogo Mensile
+   ========================================================= */
+.month-summary {
+  margin-top: 1.5rem;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.summary-item {
+  text-align: center;
+  padding: .75rem .5rem;
+  border-radius: 10px;
+  background: #fdfdfd;
+  border: 1px solid #f0f0f0;
+}
+
+.summary-label {
+  font-weight: 600;
+  color: var(--text-soft);
+  margin-bottom: .25rem;
+  font-size: .9rem;
+}
+
+.summary-value {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.summary-avg {
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: .2rem;
+}
+
+@media (max-width: 520px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: .5rem;
+  }
 }
