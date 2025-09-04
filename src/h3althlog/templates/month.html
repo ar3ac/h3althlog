@@ -94,30 +94,83 @@
 
 {% if not view_mode or view_mode == 'default' %}
 <section class="month-summary">
-  <div class="card">
-    <h3>Riepilogo Pasti del Mese</h3>
-    {% if meal_stats and (meal_stats.breakfast.avg != '–' or meal_stats.lunch.avg != '–' or meal_stats.dinner.avg != '–') %}
-    <div class="summary-grid">
-      <div class="summary-item">
-        <div class="summary-label">Colazione</div>
-        <div class="summary-value">{{ meal_stats.breakfast.label }}</div>
-        <div class="summary-avg">(media: {{ meal_stats.breakfast.avg }})</div>
-      </div>
-      <div class="summary-item">
-        <div class="summary-label">Pranzo</div>
-        <div class="summary-value">{{ meal_stats.lunch.label }}</div>
-        <div class="summary-avg">(media: {{ meal_stats.lunch.avg }})</div>
-      </div>
-      <div class="summary-item">
-        <div class="summary-label">Cena</div>
-        <div class="summary-value">{{ meal_stats.dinner.label }}</div>
-        <div class="summary-avg">(media: {{ meal_stats.dinner.avg }})</div>
+  {% set has_data = (meal_chart_data.breakfast | sum > 0) or (meal_chart_data.lunch | sum > 0) or (meal_chart_data.dinner | sum > 0) %}
+  {% if has_data %}
+  <div class="cards charts-row">
+    <div class="card chart-card">
+      <h3>Colazione</h3>
+      <div class="chart-wrap chart-sm">
+        <div id="chartMonthBreakfast"></div>
       </div>
     </div>
-    {% else %}
-    <p class="muted" style="text-align: center; margin-top: .5rem;">Nessun dato sui pasti disponibile per questo mese.</p>
-    {% endif %}
+    <div class="card chart-card">
+      <h3>Pranzo</h3>
+      <div class="chart-wrap chart-sm">
+        <div id="chartMonthLunch"></div>
+      </div>
+    </div>
+    <div class="card chart-card">
+      <h3>Cena</h3>
+      <div class="chart-wrap chart-sm">
+        <div id="chartMonthDinner"></div>
+      </div>
+    </div>
   </div>
+  {% else %}
+  <div class="card" style="margin-top: 1.5rem;">
+      <p class="muted" style="text-align: center; margin: .5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
+  </div>
+  {% endif %}
 </section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if not view_mode or view_mode == 'default' %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Opzioni comuni per i grafici a ciambella
+  const commonOptions = {
+    chart: { type: 'donut', sparkline: { enabled: true } },
+    stroke: { width: 0 },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '75%',
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              showAlways: true,
+              fontSize: '16px',
+              fontWeight: 600,
+              color: '#555'
+            }
+          }
+        }
+      }
+    },
+    colors: ['#4caf50', '#fbc02d', '#f44336'], // Verde, Giallo, Rosso
+    labels: ['Ottima', 'Normale', 'Esagerata'],
+    legend: { show: false },
+    tooltip: {
+      y: { formatter: (val) => `${val} ${val === 1 ? 'volta' : 'volte'}` }
+    }
+  };
+
+  // Funzione per creare un grafico se ci sono dati
+  function createChart(selector, seriesData) {
+    if (seriesData.reduce((a, b) => a + b, 0) > 0) {
+      const options = { ...commonOptions, series: seriesData };
+      new ApexCharts(document.querySelector(selector), options).render();
+    }
+  }
+
+  createChart("#chartMonthBreakfast", {{ meal_chart_data.breakfast | tojson }});
+  createChart("#chartMonthLunch", {{ meal_chart_data.lunch | tojson }});
+  createChart("#chartMonthDinner", {{ meal_chart_data.dinner | tojson }});
+});
+</script>
 {% endif %}
 {% endblock %}

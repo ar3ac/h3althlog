@@ -5,6 +5,7 @@ from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_w
 from .services import get_week_entries, week_meals_data, get_meal_quality_counts
 from ..models import Entry, db
 from .utils_month import get_month_weeks, month_label, get_month_range
+from collections import Counter
 import locale
 
 # Imposta italiano (solo se non già fatto altrove)
@@ -144,6 +145,7 @@ def month_view():
 
     # Calcolo medie mensili per i pasti
     meal_stats = {}
+    meal_chart_data = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries]
         lunch_q = [row.lunch_quality for row in month_entries]
@@ -167,6 +169,16 @@ def month_view():
                 "avg": f"{avg_dinner:.2f}" if avg_dinner is not None else "–"
             }
         }
+        
+        # Dati per i grafici a ciambella
+        b_counts = Counter(q for q in breakfast_q if q is not None)
+        l_counts = Counter(q for q in lunch_q if q is not None)
+        d_counts = Counter(q for q in dinner_q if q is not None)
+        meal_chart_data = {
+            "breakfast": [b_counts.get(1, 0), b_counts.get(2, 0), b_counts.get(3, 0)],
+            "lunch": [l_counts.get(1, 0), l_counts.get(2, 0), l_counts.get(3, 0)],
+            "dinner": [d_counts.get(1, 0), d_counts.get(2, 0), d_counts.get(3, 0)],
+        }
 
     return render_template(
         "month.html",
@@ -179,6 +191,7 @@ def month_view():
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
         meal_stats=meal_stats,
+        meal_chart_data=meal_chart_data,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,
