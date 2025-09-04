@@ -94,26 +94,13 @@
 
 {% if not view_mode or view_mode == 'default' %}
 <section class="month-summary">
-  {% set has_data = (meal_chart_data.breakfast | sum > 0) or (meal_chart_data.lunch | sum > 0) or (meal_chart_data.dinner | sum > 0) %}
-  {% if has_data %}
-  <div class="cards charts-row">
-    <div class="card chart-card">
-      <h3>Colazione</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthBreakfast"></canvas>
-      </div>
-    </div>
-    <div class="card chart-card">
-      <h3>Pranzo</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthLunch"></canvas>
-      </div>
-    </div>
-    <div class="card chart-card">
-      <h3>Cena</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthDinner"></canvas>
-      </div>
+  {# Calcoliamo il totale di tutti i pasti registrati per vedere se mostrare il grafico #}
+  {% set total_meals = meal_bar_chart_data.datasets | sum(attribute='data') | sum %}
+  {% if total_meals > 0 %}
+  <div class="card">
+    <h3>Riepilogo Qualità Pasti</h3>
+    <div class="chart-wrap chart-lg"> {# Usiamo una classe per un grafico più grande #}
+      <canvas id="mealBarChart"></canvas>
     </div>
   </div>
   {% else %}
@@ -128,41 +115,42 @@
 {% if not view_mode or view_mode == 'default' %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
-  // Questo script viene eseguito dopo che il DOM è stato caricato,
-  // quindi possiamo inizializzare i grafici direttamente.
-
-  const colors = ['#4caf50', '#fbc02d', '#f44336'];
-  const labels = ['Ottima', 'Normale', 'Esagerata'];
-
-  // DEBUG: Controlliamo se i dati arrivano correttamente dal backend
-  console.log("Dati per i grafici:", {{ meal_chart_data | tojson }});
-
-  function initDonut(canvasId, chartData) {
+  function initBarChart(canvasId, chartData) {
     const el = document.getElementById(canvasId);
-    if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) {
-      return; // Non fare nulla se non c'è il canvas o non ci sono dati
-    }
+    if (!el || !chartData) return;
 
-    // Distrugge un grafico precedente se esiste, per evitare conflitti
     if (el.__chart) el.__chart.destroy();
 
     el.__chart = new Chart(el.getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels: labels,
-        datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
-      },
+      type: 'bar',
+      data: chartData,
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        cutout: '75%',
+        scales: {
+          x: {
+            stacked: true,
+            grid: { display: false }
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            ticks: {
+              // Mostra solo numeri interi sull'asse Y
+              precision: 0
+            }
+          }
+        },
         plugins: {
-          legend: { display: false },
+          legend: {
+            position: 'bottom',
+            labels: { boxWidth: 12 }
+          },
           tooltip: {
             callbacks: {
               label: (context) => {
-                const value = context.parsed || 0;
-                return `${context.label}: ${value} ${value === 1 ? 'volta' : 'volte'}`;
+                // Es. "Normale: 5"
+                return `${context.dataset.label}: ${context.raw}`;
               }
             }
           }
@@ -171,10 +159,8 @@
     });
   }
 
-  // Inizializza i grafici
-  initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
-  initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
-  initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
+  // Inizializza il nuovo grafico a barre
+  initBarChart('mealBarChart', {{ meal_bar_chart_data | tojson }});
 </script>
 {% endif %}
 {% endblock %}
