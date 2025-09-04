@@ -100,19 +100,19 @@
     <div class="card chart-card">
       <h3>Colazione</h3>
       <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthBreakfast" height="80"></canvas>
+        <canvas id="chartMonthBreakfast"></canvas>
       </div>
     </div>
     <div class="card chart-card">
       <h3>Pranzo</h3>
       <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthLunch" height="80"></canvas>
+        <canvas id="chartMonthLunch"></canvas>
       </div>
     </div>
     <div class="card chart-card">
       <h3>Cena</h3>
       <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthDinner" height="80"></canvas>
+        <canvas id="chartMonthDinner"></canvas>
       </div>
     </div>
   </div>
@@ -151,7 +151,8 @@
         datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
       },
       options: {
-        responsive: false, // Impostazione chiave che risolve il bug di rendering in questa pagina
+        responsive: true,
+        maintainAspectRatio: false,
         cutout: '75%',
         plugins: {
           legend: { display: false },

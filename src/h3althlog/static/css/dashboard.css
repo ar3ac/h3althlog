@@ -413,7 +413,7 @@ h1 {
 #chartMonthLunch,
 #chartMonthDinner {
     display: block;
-    width: 100% !important;
+    width: 100%;
 }
 
 /* Legenda inline (qualità) */
