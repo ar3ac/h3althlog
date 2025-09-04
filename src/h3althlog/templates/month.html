@@ -175,6 +175,9 @@
       initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
       initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
       initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
+      console.log('Colazione:', {{ meal_chart_data.breakfast | tojson }});
+console.log('Pranzo:', {{ meal_chart_data.lunch | tojson }});
+console.log('Cena:', {{ meal_chart_data.dinner | tojson }});
     });
   })();
 </script>
