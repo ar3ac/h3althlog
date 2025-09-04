@@ -404,14 +404,19 @@ h1 {
     height: 80px;
 }
 
+/* Grafici più grandi (es. barre) */
+.chart-wrap.chart-lg {
+    height: 220px;
+}
+
 /* puoi fare 76–90 a gusto */
 #chartBreakfast,
 #chartLunch,
 #chartDinner,
-/* Aggiunti ID per i grafici mensili */
 #chartMonthBreakfast,
 #chartMonthLunch,
-#chartMonthDinner {
+#chartMonthDinner,
+#mealBarChart {
     display: block;
     width: 100%;
 }

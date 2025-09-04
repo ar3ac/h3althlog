@@ -144,32 +144,13 @@ def month_view():
     }
 
     # Calcolo medie mensili per i pasti
-    meal_stats = {}
     meal_chart_data = {}
+    meal_bar_chart_data = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries]
         lunch_q = [row.lunch_quality for row in month_entries]
         dinner_q = [row.dinner_quality for row in month_entries]
 
-        avg_breakfast = safe_average(breakfast_q)
-        avg_lunch = safe_average(lunch_q)
-        avg_dinner = safe_average(dinner_q)
-
-        meal_stats = {
-            "breakfast": {
-                "label": get_meal_quality_label(avg_breakfast),
-                "avg": f"{avg_breakfast:.2f}" if avg_breakfast is not None else "–"
-            },
-            "lunch": {
-                "label": get_meal_quality_label(avg_lunch),
-                "avg": f"{avg_lunch:.2f}" if avg_lunch is not None else "–"
-            },
-            "dinner": {
-                "label": get_meal_quality_label(avg_dinner),
-                "avg": f"{avg_dinner:.2f}" if avg_dinner is not None else "–"
-            }
-        }
-        
         # Dati per i grafici a ciambella
         b_counts = Counter(q for q in breakfast_q if q is not None)
         l_counts = Counter(q for q in lunch_q if q is not None)
@@ -178,6 +159,16 @@ def month_view():
             "breakfast": [b_counts.get(1, 0), b_counts.get(2, 0), b_counts.get(3, 0)],
             "lunch": [l_counts.get(1, 0), l_counts.get(2, 0), l_counts.get(3, 0)],
             "dinner": [d_counts.get(1, 0), d_counts.get(2, 0), d_counts.get(3, 0)],
+        }
+
+        # Dati per il nuovo grafico a barre raggruppate
+        meal_bar_chart_data = {
+            "labels": ["Colazione", "Pranzo", "Cena"],
+            "datasets": [
+                {"label": "Ottima", "data": [b_counts.get(1, 0), l_counts.get(1, 0), d_counts.get(1, 0)], "backgroundColor": "#4caf50"},
+                {"label": "Normale", "data": [b_counts.get(2, 0), l_counts.get(2, 0), d_counts.get(2, 0)], "backgroundColor": "#fbc02d"},
+                {"label": "Esagerata", "data": [b_counts.get(3, 0), l_counts.get(3, 0), d_counts.get(3, 0)], "backgroundColor": "#f44336"},
+            ]
         }
 
     return render_template(
@@ -190,8 +181,8 @@ def month_view():
         next=(next_y, next_m),
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
-        meal_stats=meal_stats,
         meal_chart_data=meal_chart_data,
+        meal_bar_chart_data=meal_bar_chart_data,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,
