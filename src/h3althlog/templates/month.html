@@ -92,89 +92,38 @@
 
  </section>
 
+{% macro percentage_bar(meal_data, meal_name) %}
+<div class="summary-item">
+  <div class="summary-label">{{ meal_name }}</div>
+  <div class="summary-bar">
+    {% if meal_data.total > 0 %}
+    <div class="bar-segment good" style="width: {{ meal_data.good_p }}%" title="Ottima: {{ meal_data.good_c }} ({{ '%.0f'|format(meal_data.good_p) }}%)"></div>
+    <div class="bar-segment normal" style="width: {{ meal_data.normal_p }}%" title="Normale: {{ meal_data.normal_c }} ({{ '%.0f'|format(meal_data.normal_p) }}%)"></div>
+    <div class="bar-segment bad" style="width: {{ meal_data.bad_p }}%" title="Esagerata: {{ meal_data.bad_c }} ({{ '%.0f'|format(meal_data.bad_p) }}%)"></div>
+    {% else %}
+    <div class="bar-segment empty" style="width: 100%">N/A</div>
+    {% endif %}
+  </div>
+</div>
+{% endmacro %}
+
 {% if not view_mode or view_mode == 'default' %}
-<section class="month-summary">
-  {% set has_data = (meal_chart_data.breakfast | sum > 0) or (meal_chart_data.lunch | sum > 0) or (meal_chart_data.dinner | sum > 0) %}
+<section class="month-summary-new card">
+  {% set has_data = meal_quality_summary.breakfast.total > 0 or meal_quality_summary.lunch.total > 0 or meal_quality_summary.dinner.total > 0 %}
   {% if has_data %}
-  <div class="cards charts-row">
-    <div class="card chart-card">
-      <h3>Colazione</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthBreakfast"></canvas>
-      </div>
+    <h3 class="summary-title">Riepilogo Qualità Pasti</h3>
+    {{ percentage_bar(meal_quality_summary.breakfast, 'Colazione') }}
+    {{ percentage_bar(meal_quality_summary.lunch, 'Pranzo') }}
+    {{ percentage_bar(meal_quality_summary.dinner, 'Cena') }}
+    <div class="summary-legend">
+      <span class="legend-item"><span class="dot green"></span> Ottima</span>
+      <span class="legend-item"><span class="dot yellow"></span> Normale</span>
+      <span class="legend-item"><span class="dot red"></span> Esagerata</span>
     </div>
-    <div class="card chart-card">
-      <h3>Pranzo</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthLunch"></canvas>
-      </div>
-    </div>
-    <div class="card chart-card">
-      <h3>Cena</h3>
-      <div class="chart-wrap chart-sm">
-        <canvas id="chartMonthDinner"></canvas>
-      </div>
-    </div>
-  </div>
   {% else %}
-  <div class="card" style="margin-top: 1.5rem;">
-      <p class="muted" style="text-align: center; margin: .5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
-  </div>
+    <p class="muted" style="text-align: center; margin: .5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
   {% endif %}
 </section>
 {% endif %}
 
-{# Includiamo gli script qui dentro il blocco 'content' per assicurarci che vengano sempre renderizzati #}
-{% if not view_mode or view_mode == 'default' %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script>
-  // Questo script viene eseguito dopo che il DOM è stato caricato,
-  // quindi possiamo inizializzare i grafici direttamente.
-
-  const colors = ['#4caf50', '#fbc02d', '#f44336'];
-  const labels = ['Ottima', 'Normale', 'Esagerata'];
-
-  // DEBUG: Controlliamo se i dati arrivano correttamente dal backend
-  console.log("Dati per i grafici:", {{ meal_chart_data | tojson }});
-
-  function initDonut(canvasId, chartData) {
-    const el = document.getElementById(canvasId);
-    if (!el || !chartData || chartData.reduce((a, b) => a + b, 0) === 0) {
-      return; // Non fare nulla se non c'è il canvas o non ci sono dati
-    }
-
-    // Distrugge un grafico precedente se esiste, per evitare conflitti
-    if (el.__chart) el.__chart.destroy();
-
-    el.__chart = new Chart(el.getContext('2d'), {
-      type: 'doughnut',
-      data: {
-        labels: labels,
-        datasets: [{ data: chartData, backgroundColor: colors, borderWidth: 0 }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '75%',
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: (context) => {
-                const value = context.parsed || 0;
-                return `${context.label}: ${value} ${value === 1 ? 'volta' : 'volte'}`;
-              }
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // Inizializza i grafici
-  initDonut('chartMonthBreakfast', {{ meal_chart_data.breakfast | tojson }});
-  initDonut('chartMonthLunch', {{ meal_chart_data.lunch | tojson }});
-  initDonut('chartMonthDinner', {{ meal_chart_data.dinner | tojson }});
-</script>
-{% endif %}
 {% endblock %}

@@ -143,32 +143,35 @@ def month_view():
         for row in month_entries
     }
 
-    # Calcolo medie mensili per i pasti
-    meal_chart_data = {}
-    meal_bar_chart_data = {}
+    # Calcolo summary qualità pasti per il mese
+    meal_quality_summary = {}
     if not view_mode or view_mode == 'default':
-        breakfast_q = [row.breakfast_quality for row in month_entries]
-        lunch_q = [row.lunch_quality for row in month_entries]
-        dinner_q = [row.dinner_quality for row in month_entries]
+        breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
+        lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
+        dinner_q = [row.dinner_quality for row in month_entries if row.dinner_quality is not None]
 
-        # Dati per i grafici a ciambella
-        b_counts = Counter(q for q in breakfast_q if q is not None)
-        l_counts = Counter(q for q in lunch_q if q is not None)
-        d_counts = Counter(q for q in dinner_q if q is not None)
-        meal_chart_data = {
-            "breakfast": [b_counts.get(1, 0), b_counts.get(2, 0), b_counts.get(3, 0)],
-            "lunch": [l_counts.get(1, 0), l_counts.get(2, 0), l_counts.get(3, 0)],
-            "dinner": [d_counts.get(1, 0), d_counts.get(2, 0), d_counts.get(3, 0)],
-        }
+        def get_quality_stats(qualities: list[int]) -> dict:
+            """Calcola statistiche di qualità per un tipo di pasto."""
+            if not qualities:
+                return {"total": 0, "good_p": 0, "normal_p": 0, "bad_p": 0, "good_c": 0, "normal_c": 0, "bad_c": 0}
 
-        # Dati per il nuovo grafico a barre raggruppate
-        meal_bar_chart_data = {
-            "labels": ["Colazione", "Pranzo", "Cena"],
-            "datasets": [
-                {"label": "Ottima", "data": [b_counts.get(1, 0), l_counts.get(1, 0), d_counts.get(1, 0)], "backgroundColor": "#4caf50"},
-                {"label": "Normale", "data": [b_counts.get(2, 0), l_counts.get(2, 0), d_counts.get(2, 0)], "backgroundColor": "#fbc02d"},
-                {"label": "Esagerata", "data": [b_counts.get(3, 0), l_counts.get(3, 0), d_counts.get(3, 0)], "backgroundColor": "#f44336"},
-            ]
+            counts = Counter(qualities)
+            total = len(qualities)
+
+            return {
+                "total": total,
+                "good_p": counts.get(1, 0) / total * 100,
+                "normal_p": counts.get(2, 0) / total * 100,
+                "bad_p": counts.get(3, 0) / total * 100,
+                "good_c": counts.get(1, 0),
+                "normal_c": counts.get(2, 0),
+                "bad_c": counts.get(3, 0),
+            }
+
+        meal_quality_summary = {
+            "breakfast": get_quality_stats(breakfast_q),
+            "lunch": get_quality_stats(lunch_q),
+            "dinner": get_quality_stats(dinner_q),
         }
 
     return render_template(
@@ -181,8 +184,7 @@ def month_view():
         next=(next_y, next_m),
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
-        meal_chart_data=meal_chart_data,
-        meal_bar_chart_data=meal_bar_chart_data,
+        meal_quality_summary=meal_quality_summary,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,
