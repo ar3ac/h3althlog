@@ -633,8 +633,10 @@ h1 {
 .summary-title {
     font-size: 1.1rem;
     font-weight: 600;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 1rem 0; /* Spazio *dopo* la linea */
+    padding-bottom: .75rem; /* Spazio tra testo e linea */
     text-align: center;
+    border-bottom: 1px solid var(--border); /* Linea di separazione visibile */
 }
 
 .summary-item {
