@@ -625,7 +625,7 @@ h1 {
     margin-top: 1.5rem;
     padding: 1rem 1.5rem;
     /* Centra il blocco e gli dà una larghezza massima */
-    max-width: 500px;
+    max-width: 460px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -643,7 +643,7 @@ h1 {
     display: grid;
     /* label | dot | % | dot | % | dot | % */
     grid-template-columns: 80px repeat(3, auto 1fr);
-    gap: .5rem .75rem; /* row-gap | column-gap */
+    gap: .5rem .6rem; /* row-gap | column-gap */
     align-items: center;
     margin-bottom: .5rem;
 }
