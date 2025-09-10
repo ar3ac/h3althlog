@@ -623,7 +623,11 @@ h1 {
    ========================================================= */
 .month-summary-new {
     margin-top: 1.5rem;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
+    /* Centra il blocco e gli dà una larghezza massima */
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .summary-title {
@@ -635,11 +639,10 @@ h1 {
 
 .summary-item {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 80px repeat(3, 1fr);
     gap: 1rem;
     align-items: center;
     margin-bottom: .5rem;
-    padding: .25rem 0;
 }
 
 .summary-label {
@@ -649,38 +652,35 @@ h1 {
     text-align: right;
 }
 
-.summary-percentages {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-}
-
 .percentage-group {
     display: flex;
     align-items: center;
     gap: .5rem;
     cursor: default; /* Per mostrare il title */
+    justify-content: center; /* Centra il contenuto (dot + %) nella colonna */
 }
 
 .percentage-value {
     font-weight: 600;
     font-size: 1rem;
     color: var(--text);
-    min-width: 3ch; /* Allinea i valori percentuali */
 }
 
 @media (max-width: 480px) {
+    .month-summary-new {
+        padding: 1rem;
+    }
     .summary-item {
-        grid-template-columns: 70px 1fr;
+        grid-template-columns: 65px repeat(3, 1fr);
         gap: .5rem;
     }
     .summary-label {
         font-size: .85rem;
     }
-    .summary-percentages {
-        gap: 1rem;
+    .percentage-group {
+        gap: .3rem;
     }
     .percentage-value {
-        font-size: .95rem;
+        font-size: .9rem;
     }
 }
