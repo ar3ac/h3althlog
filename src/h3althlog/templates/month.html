@@ -96,20 +96,14 @@
 <div class="summary-item">
   <div class="summary-label">{{ meal_name }}</div>
   {% if meal_data.total > 0 %}
-    <span class="percentage-group" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}">
-      <span class="dot green"></span>
-      <span class="percentage-value">{{ '%.0f'|format(meal_data.good_p) }}%</span>
-    </span>
-    <span class="percentage-group" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}">
-      <span class="dot yellow"></span>
-      <span class="percentage-value">{{ '%.0f'|format(meal_data.normal_p) }}%</span>
-    </span>
-    <span class="percentage-group" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}">
-      <span class="dot red"></span>
-      <span class="percentage-value">{{ '%.0f'|format(meal_data.bad_p) }}%</span>
-    </span>
+    <span class="dot green" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}"></span>
+    <span class="percentage-value" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.good_p) }}%</span>
+    <span class="dot yellow" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}"></span>
+    <span class="percentage-value" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.normal_p) }}%</span>
+    <span class="dot red" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}"></span>
+    <span class="percentage-value" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.bad_p) }}%</span>
   {% else %}
-    <span class="muted" style="grid-column: span 3;">Nessun dato</span>
+    <span class="muted" style="grid-column: span 6;">Nessun dato</span>
   {% endif %}
 </div>
 {% endmacro %}

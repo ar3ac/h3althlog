@@ -639,8 +639,9 @@ h1 {
 
 .summary-item {
     display: grid;
-    grid-template-columns: 80px repeat(3, 1fr);
-    gap: 1rem;
+    /* label | dot | % | dot | % | dot | % */
+    grid-template-columns: 80px repeat(3, auto 1fr);
+    gap: .5rem .75rem; /* row-gap | column-gap */
     align-items: center;
     margin-bottom: .5rem;
 }
@@ -652,18 +653,17 @@ h1 {
     text-align: right;
 }
 
-.percentage-group {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    cursor: default; /* Per mostrare il title */
-    justify-content: center; /* Centra il contenuto (dot + %) nella colonna */
+.summary-item .dot {
+    justify-self: center; /* Centra il pallino nella sua colonna (auto) */
+    cursor: default;
 }
 
 .percentage-value {
     font-weight: 600;
     font-size: 1rem;
     color: var(--text);
+    cursor: default;
+    justify-self: start; /* Allineato a sinistra nella sua cella */
 }
 
 @media (max-width: 480px) {
@@ -671,14 +671,12 @@ h1 {
         padding: 1rem;
     }
     .summary-item {
-        grid-template-columns: 65px repeat(3, 1fr);
+        grid-template-columns: 65px repeat(3, auto 1fr);
+        /* Un solo valore si applica a righe e colonne, va bene su mobile */
         gap: .5rem;
     }
     .summary-label {
         font-size: .85rem;
-    }
-    .percentage-group {
-        gap: .3rem;
     }
     .percentage-value {
         font-size: .9rem;
