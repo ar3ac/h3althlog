@@ -92,16 +92,25 @@
 
  </section>
 
-{% macro percentage_bar(meal_data, meal_name) %}
+{% macro meal_percentage_summary(meal_data, meal_name) %}
 <div class="summary-item">
   <div class="summary-label">{{ meal_name }}</div>
-  <div class="summary-bar">
+  <div class="summary-percentages">
     {% if meal_data.total > 0 %}
-    <div class="bar-segment good" style="width: {{ meal_data.good_p }}%" title="Ottima: {{ meal_data.good_c }} ({{ '%.0f'|format(meal_data.good_p) }}%)"></div>
-    <div class="bar-segment normal" style="width: {{ meal_data.normal_p }}%" title="Normale: {{ meal_data.normal_c }} ({{ '%.0f'|format(meal_data.normal_p) }}%)"></div>
-    <div class="bar-segment bad" style="width: {{ meal_data.bad_p }}%" title="Esagerata: {{ meal_data.bad_c }} ({{ '%.0f'|format(meal_data.bad_p) }}%)"></div>
+      <span class="percentage-group" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}">
+        <span class="dot green"></span>
+        <span class="percentage-value">{{ '%.0f'|format(meal_data.good_p) }}%</span>
+      </span>
+      <span class="percentage-group" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}">
+        <span class="dot yellow"></span>
+        <span class="percentage-value">{{ '%.0f'|format(meal_data.normal_p) }}%</span>
+      </span>
+      <span class="percentage-group" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}">
+        <span class="dot red"></span>
+        <span class="percentage-value">{{ '%.0f'|format(meal_data.bad_p) }}%</span>
+      </span>
     {% else %}
-    <div class="bar-segment empty" style="width: 100%">N/A</div>
+      <span class="muted">Nessun dato</span>
     {% endif %}
   </div>
 </div>
@@ -112,14 +121,9 @@
   {% set has_data = meal_quality_summary.breakfast.total > 0 or meal_quality_summary.lunch.total > 0 or meal_quality_summary.dinner.total > 0 %}
   {% if has_data %}
     <h3 class="summary-title">Riepilogo Qualità Pasti</h3>
-    {{ percentage_bar(meal_quality_summary.breakfast, 'Colazione') }}
-    {{ percentage_bar(meal_quality_summary.lunch, 'Pranzo') }}
-    {{ percentage_bar(meal_quality_summary.dinner, 'Cena') }}
-    <div class="summary-legend">
-      <span class="legend-item"><span class="dot green"></span> Ottima</span>
-      <span class="legend-item"><span class="dot yellow"></span> Normale</span>
-      <span class="legend-item"><span class="dot red"></span> Esagerata</span>
-    </div>
+    {{ meal_percentage_summary(meal_quality_summary.breakfast, 'Colazione') }}
+    {{ meal_percentage_summary(meal_quality_summary.lunch, 'Pranzo') }}
+    {{ meal_percentage_summary(meal_quality_summary.dinner, 'Cena') }}
   {% else %}
     <p class="muted" style="text-align: center; margin: .5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
   {% endif %}

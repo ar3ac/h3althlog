@@ -629,77 +629,58 @@ h1 {
 .summary-title {
     font-size: 1.1rem;
     font-weight: 600;
-    margin: 0 0 1rem 0;
+    margin: 0 0 .75rem 0;
     text-align: center;
 }
 
 .summary-item {
     display: grid;
     grid-template-columns: 80px 1fr;
-    gap: .75rem;
+    gap: 1rem;
     align-items: center;
-    margin-bottom: .75rem;
+    margin-bottom: .5rem;
+    padding: .25rem 0;
 }
 
 .summary-label {
     font-weight: 500;
     color: var(--text-soft);
     font-size: .9rem;
+    text-align: right;
 }
 
-.summary-bar {
+.summary-percentages {
     display: flex;
-    width: 100%;
-    height: 24px;
-    border-radius: 6px;
-    overflow: hidden;
-    background: #f0f0f0;
-    border: 1px solid var(--border);
+    gap: 1.5rem;
+    align-items: center;
 }
 
-.bar-segment {
-    height: 100%;
-    transition: width .3s ease-in-out;
-}
-
-.bar-segment.good { background-color: var(--green); }
-.bar-segment.normal { background-color: var(--yellow); }
-.bar-segment.bad { background-color: var(--red); }
-
-.bar-segment.empty {
-    width: 100%;
-    background-color: #f5f5f5;
-    color: var(--muted);
-    font-size: .8rem;
+.percentage-group {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: .5rem;
+    cursor: default; /* Per mostrare il title */
 }
 
-.summary-legend {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
-    font-size: .85rem;
-    color: var(--text-soft);
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: .4rem;
+.percentage-value {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text);
+    min-width: 3ch; /* Allinea i valori percentuali */
 }
 
 @media (max-width: 480px) {
     .summary-item {
         grid-template-columns: 70px 1fr;
+        gap: .5rem;
     }
     .summary-label {
         font-size: .85rem;
     }
-    .summary-legend {
-        flex-wrap: wrap;
-        gap: .5rem 1rem;
+    .summary-percentages {
+        gap: 1rem;
+    }
+    .percentage-value {
+        font-size: .95rem;
     }
 }
