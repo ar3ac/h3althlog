@@ -503,9 +503,6 @@ h1 {
     border-color: var(--blue-strong);
 }
 
-/* Padding laterale pagina (usa qualunque wrapper esistente senza rompere altre pagine) */
-.page-month,.month-wrap,.container{padding-left:12px;padding-right:12px;}
-
 /* Griglia mese */
 .month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.4rem;margin-top:.5rem;}
 
