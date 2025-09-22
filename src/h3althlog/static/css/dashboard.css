@@ -689,6 +689,25 @@ h1 {
     line-height: 1;
 }
 
+/* Riepilogo singolo (es. Passi) */
+.summary-box-single {
+    padding: 1rem 1.5rem;
+    text-align: center;
+}
+
+.summary-single-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--blue-strong);
+    line-height: 1.2;
+    margin: .25rem 0;
+}
+
+.summary-single-footer {
+    font-size: .8rem;
+    color: var(--muted);
+}
+
 /* Responsive: le card vanno in colonna */
 @media (max-width: 520px) {
     .month-summary-grid {
@@ -700,5 +719,8 @@ h1 {
 @media (max-width: 480px) {
     .month-summary-container {
         padding: 0 .5rem;
+    }
+    .summary-single-value {
+        font-size: 1.9rem;
     }
 }

@@ -146,6 +146,7 @@ def month_view():
     # Calcolo summary qualità pasti per il mese
     meal_quality_summary = {}
     diet_summary = {}
+    steps_summary = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
         lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
@@ -210,6 +211,15 @@ def month_view():
             "dinner": get_diet_stats(dinner_d),
         }
 
+    if view_mode == 'steps':
+        # Get all steps values, filtering out None and 0
+        steps_values = [row.steps for row in month_entries if row.steps is not None and row.steps > 0]
+        avg_steps = safe_average(steps_values)
+        steps_summary = {
+            "average": avg_steps,
+            "count": len(steps_values)
+        }
+
     return render_template(
         "month.html",
         label=label,
@@ -222,6 +232,7 @@ def month_view():
         view_mode=view_mode,  # Passiamo la modalità al template
         meal_quality_summary=meal_quality_summary,
         diet_summary=diet_summary,
+        steps_summary=steps_summary,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,

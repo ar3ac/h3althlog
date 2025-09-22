@@ -164,4 +164,20 @@
 </section>
 {% endif %}
 
+{% if view_mode == 'steps' %}
+<section class="month-summary-container">
+  {% if steps_summary.count > 0 %}
+    <div class="summary-box-single card">
+      <h4 class="summary-box-title">Media Passi Mensile</h4>
+      <div class="summary-single-value">
+        {{ format_steps_full(steps_summary.average) }}
+      </div>
+      <div class="summary-single-footer">
+        su {{ steps_summary.count }} giorni registrati
+      </div>
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
 {% endblock %}
