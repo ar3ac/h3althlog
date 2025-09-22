@@ -623,10 +623,9 @@ h1 {
    ========================================================= */
 .month-summary-container {
     margin-top: 1.5rem;
-    padding: 0 1rem; /* Padding laterale per il titolo e la griglia */
-    max-width: 640px; /* Un po' più largo per 3 card */
-    margin-left: auto;
-    margin-right: auto;
+    /* Il padding laterale garantisce spazio sui bordi */
+    padding: 0 1rem;
+    /* Centering e max-width sono spostati sulla griglia interna */
 }
 
 .summary-title {
@@ -642,6 +641,10 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: .75rem;
+    /* Imposta una larghezza massima per la griglia e la centra */
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .summary-box {
@@ -650,9 +653,9 @@ h1 {
 }
 
 .summary-box-title {
-    font-size: 1rem;
+    font-size: .95rem;
     font-weight: 600;
-    margin: 0 0 .75rem 0;
+    margin: 0 0 .6rem 0;
     text-align: center;
 }
 
@@ -663,7 +666,7 @@ h1 {
     align-items: center;
     text-align: left;
     margin-bottom: .3rem;
-    font-size: .9rem;
+    font-size: .85rem;
 }
 
 .summary-box-item .label {
@@ -686,12 +689,5 @@ h1 {
 @media (max-width: 480px) {
     .month-summary-container {
         padding: 0 .5rem;
-    }
-    .summary-box-title {
-        font-synthesis: .95rem;
-        margin-bottom: .5rem;
-    }
-    .summary-box-item {
-        font-size: .85rem;
     }
 }
