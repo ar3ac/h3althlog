@@ -105,7 +105,7 @@ def get_diet_summary_label(value: int) -> str:
         2: "Veget.",
         3: "Pesce",
         4: "Pollo",
-        5: "C. Rossa"
+        5: "Carne"
     }
     return mapping.get(value, "N/A")
 
