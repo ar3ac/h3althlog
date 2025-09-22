@@ -672,7 +672,7 @@ h1 {
 
 .summary-box-item .percentage {
     font-weight: 600;
-    justify-self: end;
+    text-align: right;
 }
 
 /* Responsive: le card vanno in colonna */
