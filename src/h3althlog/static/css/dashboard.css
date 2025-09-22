@@ -621,11 +621,10 @@ h1 {
 /* =========================================================
    Riepilogo Mensile Pasti (Nuovo)
    ========================================================= */
-.month-summary-new {
+.month-summary-container {
     margin-top: 1.5rem;
-    padding: 1rem 1.5rem;
-    /* Centra il blocco e gli dà una larghezza massima */
-    max-width: 460px;
+    padding: 0 1rem; /* Padding laterale per il titolo e la griglia */
+    max-width: 640px; /* Un po' più largo per 3 card */
     margin-left: auto;
     margin-right: auto;
 }
@@ -633,54 +632,66 @@ h1 {
 .summary-title {
     font-size: 1.1rem;
     font-weight: 600;
-    margin: 0 0 1rem 0; /* Spazio *dopo* la linea */
-    padding-bottom: .75rem; /* Spazio tra testo e linea */
+    margin: 0 0 1rem 0;
+    padding-bottom: .75rem;
     text-align: center;
-    border-bottom: 1px solid var(--border); /* Linea di separazione visibile */
+    border-bottom: 1px solid var(--border);
 }
 
-.summary-item {
+.month-summary-grid {
     display: grid;
-    /* label | dot | % | dot | % | dot | % */
-    grid-template-columns: 80px repeat(3, auto 1fr);
-    gap: .5rem .6rem; /* row-gap | column-gap */
-    align-items: center;
-    margin-bottom: .5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
 }
 
-.summary-label {
-    font-weight: 500;
-    color: var(--text-soft);
-    font-size: .9rem;
-    text-align: right;
+.summary-box {
+    /* .card styles sono già applicati, ma possiamo aggiungere specificità */
+    padding: .75rem;
 }
 
-.summary-item .dot {
-    justify-self: center; /* Centra il pallino nella sua colonna (auto) */
-    cursor: default;
-}
-
-.percentage-value {
-    font-weight: 600;
+.summary-box-title {
     font-size: 1rem;
-    color: var(--text);
-    cursor: default;
-    justify-self: start; /* Allineato a sinistra nella sua cella */
+    font-weight: 600;
+    margin: 0 0 .75rem 0;
+    text-align: center;
+}
+
+.summary-box-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* dot | label | percentage */
+    gap: .5rem;
+    align-items: center;
+    text-align: left;
+    margin-bottom: .3rem;
+    font-size: .9rem;
+}
+
+.summary-box-item .label {
+    color: var(--text-soft);
+}
+
+.summary-box-item .percentage {
+    font-weight: 600;
+    justify-self: end;
+}
+
+/* Responsive: le card vanno in colonna */
+@media (max-width: 520px) {
+    .month-summary-grid {
+        grid-template-columns: 1fr;
+        gap: .5rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .month-summary-new {
-        padding: 1rem;
+    .month-summary-container {
+        padding: 0 .5rem;
     }
-    .summary-item {
-        grid-template-columns: 65px repeat(3, auto 1fr);
-        /* Un solo valore si applica a righe e colonne, va bene su mobile */
-        gap: .5rem;
+    .summary-box-title {
+        font-synthesis: .95rem;
+        margin-bottom: .5rem;
     }
-    .summary-label {
+    .summary-box-item {
         font-size: .85rem;
-    }
-    .percentage-value {
-        font-size: .9rem;
     }
 }

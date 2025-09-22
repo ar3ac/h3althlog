@@ -93,31 +93,42 @@
  </section>
 
 {% macro meal_percentage_summary(meal_data, meal_name) %}
-<div class="summary-item">
-  <div class="summary-label">{{ meal_name }}</div>
+<div class="summary-box card">
+  <h4 class="summary-box-title">{{ meal_name }}</h4>
   {% if meal_data.total > 0 %}
-    <span class="dot green" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}"></span>
-    <span class="percentage-value" title="Ottima: {{ meal_data.good_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.good_p) }}%</span>
-    <span class="dot yellow" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}"></span>
-    <span class="percentage-value" title="Normale: {{ meal_data.normal_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.normal_p) }}%</span>
-    <span class="dot red" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}"></span>
-    <span class="percentage-value" title="Esagerata: {{ meal_data.bad_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.bad_p) }}%</span>
+    <div class="summary-box-item">
+      <span class="dot green"></span>
+      <span class="label">Ottima</span>
+      <span class="percentage" title="{{ meal_data.good_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.good_p) }}%</span>
+    </div>
+    <div class="summary-box-item">
+      <span class="dot yellow"></span>
+      <span class="label">Normale</span>
+      <span class="percentage" title="{{ meal_data.normal_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.normal_p) }}%</span>
+    </div>
+    <div class="summary-box-item">
+      <span class="dot red"></span>
+      <span class="label">Esagerata</span>
+      <span class="percentage" title="{{ meal_data.bad_c }} su {{ meal_data.total }}">{{ '%.0f'|format(meal_data.bad_p) }}%</span>
+    </div>
   {% else %}
-    <span class="muted" style="grid-column: span 6;">Nessun dato</span>
+    <p class="muted" style="text-align: center; font-size: .9rem; margin: .5rem 0;">Nessun dato</p>
   {% endif %}
 </div>
 {% endmacro %}
 
 {% if not view_mode or view_mode == 'default' %}
-<section class="month-summary-new card">
+<section class="month-summary-container">
   {% set has_data = meal_quality_summary.breakfast.total > 0 or meal_quality_summary.lunch.total > 0 or meal_quality_summary.dinner.total > 0 %}
   {% if has_data %}
     <h3 class="summary-title">Riepilogo Qualità Pasti</h3>
-    {{ meal_percentage_summary(meal_quality_summary.breakfast, 'Colazione') }}
-    {{ meal_percentage_summary(meal_quality_summary.lunch, 'Pranzo') }}
-    {{ meal_percentage_summary(meal_quality_summary.dinner, 'Cena') }}
+    <div class="month-summary-grid">
+      {{ meal_percentage_summary(meal_quality_summary.breakfast, 'Colazione') }}
+      {{ meal_percentage_summary(meal_quality_summary.lunch, 'Pranzo') }}
+      {{ meal_percentage_summary(meal_quality_summary.dinner, 'Cena') }}
+    </div>
   {% else %}
-    <p class="muted" style="text-align: center; margin: .5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
+    <p class="muted" style="text-align: center; margin: 1.5rem 0;">Nessun dato sui pasti disponibile per questo mese.</p>
   {% endif %}
 </section>
 {% endif %}
