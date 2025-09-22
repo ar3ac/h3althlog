@@ -683,6 +683,9 @@ h1 {
     .month-summary-grid {
         grid-template-columns: 1fr;
         gap: .5rem;
+        /* Su mobile, la griglia non ha più una larghezza massima e si adatta al contenitore */
+        max-width: none;
+        margin: 0;
     }
 }
 
