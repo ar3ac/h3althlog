@@ -89,11 +89,23 @@ def get_meal_quality_label(avg: float) -> str:
 def get_diet_label(value: int) -> str:
     """Ritorna etichetta + emoji per una dieta singola."""
     mapping = {
-        1: "🌱 Vegano     ",
+        1: "🌱 Vegano",
         2: "🥦 Vegetariano",
-        3: "🐟 Pesce      ",
-        4: "🍗 Pollo      ",
+        3: "🐟 Pesce",
+        4: "🍗 Pollo",
         5: "🥩 Carne rossa"
+    }
+    return mapping.get(value, "N/A")
+
+
+def get_diet_summary_label(value: int) -> str:
+    """Ritorna etichetta testuale abbreviata per i riepiloghi."""
+    mapping = {
+        1: "Vegano",
+        2: "Veget.",
+        3: "Pesce",
+        4: "Pollo",
+        5: "C. Rossa"
     }
     return mapping.get(value, "N/A")
 

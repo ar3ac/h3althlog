@@ -1,7 +1,7 @@
 from datetime import date, timedelta, datetime
 from flask import render_template, session, redirect, url_for, flash, request
 from . import bp
-from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon, format_steps_full, format_weight, get_mood_icon, get_poop_icon, safe_average
+from .utils import get_week_label, get_diet_label, get_meal_quality_label, get_week_days, get_poop_label, get_single_mood_label, get_week_range, get_diet_icon, format_steps_full, format_weight, get_mood_icon, get_poop_icon, safe_average, get_diet_summary_label
 from .services import get_week_entries, week_meals_data, get_meal_quality_counts
 from ..models import Entry, db
 from .utils_month import get_month_weeks, month_label, get_month_range
@@ -194,7 +194,7 @@ def month_view():
                 count = counts.get(diet_id, 0)
                 if count > 0:
                     stats.append({
-                        "name": get_diet_label(diet_id),
+                        "name": get_diet_summary_label(diet_id),
                         "icon": get_diet_icon(diet_id),
                         "count": count,
                         "percentage": count / total * 100
