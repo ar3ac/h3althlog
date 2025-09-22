@@ -215,6 +215,8 @@ def month_view():
         # Get all steps values, filtering out None and 0
         steps_values = [row.steps for row in month_entries if row.steps is not None and row.steps > 0]
         avg_steps = safe_average(steps_values)
+        if avg_steps is not None:
+            avg_steps = int(avg_steps)
         steps_summary = {
             "average": avg_steps,
             "count": len(steps_values)
