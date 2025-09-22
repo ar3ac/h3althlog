@@ -658,7 +658,7 @@ h1 {
 
 .summary-box-item {
     display: grid;
-    grid-template-columns: auto 1fr auto; /* dot | label | percentage */
+    grid-template-columns: auto 1fr 40px; /* dot | label | percentage */
     gap: .5rem;
     align-items: center;
     text-align: left;
