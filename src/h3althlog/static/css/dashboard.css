@@ -625,7 +625,10 @@ h1 {
     margin-top: 1.5rem;
     /* Il padding laterale garantisce spazio sui bordi */
     padding: 0 1rem;
-    /* Centering e max-width sono spostati sulla griglia interna */
+    /* Centra il container e gli dà una larghezza massima */
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .summary-title {
@@ -641,10 +644,7 @@ h1 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: .75rem;
-    /* Imposta una larghezza massima per la griglia e la centra */
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
+    /* La griglia riempie il suo container, che è già centrato e dimensionato */
 }
 
 .summary-box {
@@ -683,9 +683,6 @@ h1 {
     .month-summary-grid {
         grid-template-columns: 1fr;
         gap: .5rem;
-        /* Su mobile, la griglia non ha più una larghezza massima e si adatta al contenitore */
-        max-width: none;
-        margin: 0;
     }
 }
 
