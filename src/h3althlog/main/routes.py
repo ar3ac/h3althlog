@@ -145,6 +145,7 @@ def month_view():
 
     # Calcolo summary qualità pasti per il mese
     meal_quality_summary = {}
+    diet_summary = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
         lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
@@ -174,6 +175,41 @@ def month_view():
             "dinner": get_quality_stats(dinner_q),
         }
 
+    if view_mode == 'diet':
+        breakfast_d = [row.breakfast_diet for row in month_entries if row.breakfast_diet is not None]
+        lunch_d = [row.lunch_diet for row in month_entries if row.lunch_diet is not None]
+        dinner_d = [row.dinner_diet for row in month_entries if row.dinner_diet is not None]
+
+        def get_diet_stats(diets: list[int]) -> dict:
+            """Calcola statistiche di dieta per un tipo di pasto."""
+            if not diets:
+                return {"total": 0, "stats": []}
+
+            counts = Counter(diets)
+            total = len(diets)
+            
+            stats = []
+            # Itera su tutti i tipi di dieta possibili per verificare se esistono nei dati
+            for diet_id in range(1, 6): # da 1 a 5
+                count = counts.get(diet_id, 0)
+                if count > 0:
+                    stats.append({
+                        "name": get_diet_label(diet_id),
+                        "icon": get_diet_icon(diet_id),
+                        "count": count,
+                        "percentage": count / total * 100
+                    })
+            
+            stats.sort(key=lambda x: x['count'], reverse=True)
+
+            return {"total": total, "stats": stats}
+
+        diet_summary = {
+            "breakfast": get_diet_stats(breakfast_d),
+            "lunch": get_diet_stats(lunch_d),
+            "dinner": get_diet_stats(dinner_d),
+        }
+
     return render_template(
         "month.html",
         label=label,
@@ -185,6 +221,7 @@ def month_view():
         today=today,
         view_mode=view_mode,  # Passiamo la modalità al template
         meal_quality_summary=meal_quality_summary,
+        diet_summary=diet_summary,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,

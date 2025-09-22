@@ -205,6 +205,7 @@ h1 {
     height: 10px;
     border-radius: 50%;
     display: inline-block;
+    justify-self: center; /* Centra l'elemento nella cella della griglia */
 }
 
 .dot.green {
@@ -664,7 +665,7 @@ h1 {
 
 .summary-box-item {
     display: grid;
-    grid-template-columns: auto 1fr 40px; /* dot | label | percentage */
+    grid-template-columns: 20px 1fr 40px; /* icon/dot | label | percentage */
     gap: .5rem;
     align-items: center;
     text-align: left;
@@ -679,6 +680,13 @@ h1 {
 .summary-box-item .percentage {
     font-weight: 600;
     text-align: right;
+}
+
+/* Stile per le icone nel riepilogo dieta */
+.summary-box-item .diet-icon-summary {
+    font-size: 1.1rem;
+    justify-self: center;
+    line-height: 1;
 }
 
 /* Responsive: le card vanno in colonna */
