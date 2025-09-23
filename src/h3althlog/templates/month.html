@@ -180,4 +180,74 @@
 </section>
 {% endif %}
 
+{% if view_mode == 'weight' %}
+<section class="month-summary-container">
+  {% if weight_summary.has_data %}
+    <div class="card">
+      <h3 class="summary-title" style="margin-bottom: 1.5rem;">Andamento Peso</h3>
+      <div class="chart-wrap chart-lg" style="height: 250px;">
+        <canvas id="weightChart"></canvas>
+      </div>
+    </div>
+  {% else %}
+    <p class="muted" style="text-align: center; margin: 1.5rem 0;">Nessun dato sul peso disponibile per questo mese.</p>
+  {% endif %}
+</section>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const weightCanvas = document.getElementById('weightChart');
+  if (weightCanvas) {
+    const ctx = weightCanvas.getContext('2d');
+    const weightData = {{ weight_summary.data | tojson }};
+    const weightLabels = {{ weight_summary.labels | tojson }};
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: weightLabels,
+        datasets: [{
+          label: 'Peso (kg)',
+          data: weightData,
+          borderColor: 'var(--purple)',
+          backgroundColor: 'rgba(142, 68, 173, 0.1)',
+          borderWidth: 2,
+          pointBackgroundColor: 'var(--purple)',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          tension: 0.1, // Leggera curva
+          spanGaps: true // Unisce i punti anche se ci sono dati null in mezzo
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: false, // Il peso non parte da 0
+            ticks: {
+              callback: function(value) { return value + ' kg'; }
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) { return 'Peso: ' + context.parsed.y + ' kg'; }
+            }
+          }
+        }
+      }
+    });
+  }
+});
+</script>
 {% endblock %}

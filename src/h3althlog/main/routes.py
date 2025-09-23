@@ -147,6 +147,7 @@ def month_view():
     meal_quality_summary = {}
     diet_summary = {}
     steps_summary = {}
+    weight_summary = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
         lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
@@ -222,6 +223,28 @@ def month_view():
             "count": len(steps_values)
         }
 
+    if view_mode == 'weight':
+        # Prepara i dati per il grafico del peso
+        weight_data = {day: data[4] for day, data in entries_map.items() if data[4] is not None and data[4] > 0}
+
+        chart_labels = []
+        chart_values = []
+
+        # Itera su tutti i giorni del mese per avere un asse X continuo
+        current_day = start
+        while current_day <= end:
+            # Mostra solo i giorni del mese corrente nel grafico
+            if current_day.month == m:
+                chart_labels.append(current_day.strftime('%d/%m'))
+                chart_values.append(weight_data.get(current_day)) # Sarà None se non c'è dato
+            current_day += timedelta(days=1)
+
+        weight_summary = {
+            "labels": chart_labels,
+            "data": chart_values,
+            "has_data": any(v is not None for v in chart_values)
+        }
+
     return render_template(
         "month.html",
         label=label,
@@ -235,6 +258,7 @@ def month_view():
         meal_quality_summary=meal_quality_summary,
         diet_summary=diet_summary,
         steps_summary=steps_summary,
+        weight_summary=weight_summary,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,
