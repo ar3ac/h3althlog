@@ -289,8 +289,12 @@ def month_view():
             for poop_id in range(1, 4):
                 count = counts.get(poop_id, 0)
                 if count > 0:
+                    # Estrae solo il testo, rimuovendo l'emoji iniziale e spazi
+                    full_label = get_poop_label(poop_id)
+                    # Trova il primo spazio e prende il testo che segue
+                    name_only = full_label.split(" ", 1)[-1] if " " in full_label else full_label
                     stats.append({
-                        "name": get_poop_label(poop_id).split("!", 1)[-1].strip(), # "Showtime!", "Normale", "Pessima"
+                        "name": name_only,
                         "icon": get_poop_icon(poop_id),
                         "count": count,
                         "percentage": count / total * 100
