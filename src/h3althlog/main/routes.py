@@ -151,9 +151,9 @@ def month_view():
     mood_summary = {}
     poop_summary = {}
     if not view_mode or view_mode == 'default':
-        breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
-        lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
-        dinner_q = [row.dinner_quality for row in month_entries if row.dinner_quality is not None]
+        breakfast_q = [row[1] for row in month_entries if row[1] is not None]
+        lunch_q = [row[2] for row in month_entries if row[2] is not None]
+        dinner_q = [row[3] for row in month_entries if row[3] is not None]
 
         def get_quality_stats(qualities: list[int]) -> dict:
             """Calcola statistiche di qualità per un tipo di pasto."""
@@ -180,9 +180,9 @@ def month_view():
         }
 
     if view_mode == 'diet':
-        breakfast_d = [row.breakfast_diet for row in month_entries if row.breakfast_diet is not None]
-        lunch_d = [row.lunch_diet for row in month_entries if row.lunch_diet is not None]
-        dinner_d = [row.dinner_diet for row in month_entries if row.dinner_diet is not None]
+        breakfast_d = [row[6] for row in month_entries if row[6] is not None]
+        lunch_d = [row[7] for row in month_entries if row[7] is not None]
+        dinner_d = [row[8] for row in month_entries if row[8] is not None]
 
         def get_diet_stats(diets: list[int]) -> dict:
             """Calcola statistiche di dieta per un tipo di pasto."""
@@ -216,7 +216,7 @@ def month_view():
 
     if view_mode == 'steps':
         # Get all steps values, filtering out None and 0
-        steps_values = [row.steps for row in month_entries if row.steps is not None and row.steps > 0]
+        steps_values = [row[4] for row in month_entries if row[4] is not None and row[4] > 0]
         avg_steps = safe_average(steps_values)
         if avg_steps is not None:
             avg_steps = int(avg_steps)
