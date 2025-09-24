@@ -180,6 +180,45 @@
 </section>
 {% endif %}
 
+{% macro icon_percentage_summary(data, title) %}
+<div class="summary-box card">
+  <h4 class="summary-box-title">{{ title }}</h4>
+  {% if data.total > 0 %}
+    {% for item in data.stats %}
+    <div class="summary-box-item">
+      <span class="diet-icon-summary">{{ item.icon }}</span>
+      <span class="label">{{ item.name }}</span>
+      <span class="percentage" title="{{ item.count }} su {{ data.total }}">{{ '%.0f'|format(item.percentage) }}%</span>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted" style="text-align: center; font-size: .9rem; margin: .5rem 0;">Nessun dato</p>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% if view_mode == 'mood' %}
+<section class="month-summary-container">
+  {% if mood_summary.total > 0 %}
+    <h3 class="summary-title">Riepilogo Umore</h3>
+    <div class="month-summary-grid" style="grid-template-columns: 1fr; max-width: 280px; margin: auto;">
+      {{ icon_percentage_summary(mood_summary, 'Umore del mese') }}
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
+{% if view_mode == 'poop' %}
+<section class="month-summary-container">
+  {% if poop_summary.total > 0 %}
+    <h3 class="summary-title">Riepilogo Poop Quality</h3>
+    <div class="month-summary-grid" style="grid-template-columns: 1fr; max-width: 280px; margin: auto;">
+      {{ icon_percentage_summary(poop_summary, 'Qualità del mese') }}
+    </div>
+  {% endif %}
+</section>
+{% endif %}
+
 {% if view_mode == 'weight' %}
 <section class="month-summary-container">
   {% if weight_summary.has_data %}

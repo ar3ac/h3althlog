@@ -148,6 +148,8 @@ def month_view():
     diet_summary = {}
     steps_summary = {}
     weight_summary = {}
+    mood_summary = {}
+    poop_summary = {}
     if not view_mode or view_mode == 'default':
         breakfast_q = [row.breakfast_quality for row in month_entries if row.breakfast_quality is not None]
         lunch_q = [row.lunch_quality for row in month_entries if row.lunch_quality is not None]
@@ -245,6 +247,58 @@ def month_view():
             "has_data": any(v is not None for v in chart_values)
         }
 
+    if view_mode == 'mood':
+        mood_values = [row.mood for row in month_entries if row.mood is not None]
+
+        def get_mood_stats(moods: list[int]) -> dict:
+            """Calcola statistiche di umore per il mese."""
+            if not moods:
+                return {"total": 0, "stats": []}
+
+            counts = Counter(moods)
+            total = len(moods)
+            
+            stats = []
+            # Itera su tutti i tipi di umore possibili (1, 2, 3)
+            for mood_id in range(1, 4):
+                count = counts.get(mood_id, 0)
+                if count > 0:
+                    stats.append({
+                        "name": get_single_mood_label(mood_id).split(" ", 1)[-1], # "Happy", "Normale", "Bad Day"
+                        "icon": get_mood_icon(mood_id),
+                        "count": count,
+                        "percentage": count / total * 100
+                    })
+            stats.sort(key=lambda x: x['count'], reverse=True)
+            return {"total": total, "stats": stats}
+
+        mood_summary = get_mood_stats(mood_values)
+
+    if view_mode == 'poop':
+        poop_values = [row.poop_quality for row in month_entries if row.poop_quality is not None]
+
+        def get_poop_stats(poops: list[int]) -> dict:
+            """Calcola statistiche di poop quality per il mese."""
+            if not poops:
+                return {"total": 0, "stats": []}
+
+            counts = Counter(poops)
+            total = len(poops)
+            stats = []
+            # Itera su tutti i tipi di poop quality (1, 2, 3)
+            for poop_id in range(1, 4):
+                count = counts.get(poop_id, 0)
+                if count > 0:
+                    stats.append({
+                        "name": get_poop_label(poop_id).split("!", 1)[-1].strip(), # "Showtime!", "Normale", "Pessima"
+                        "icon": get_poop_icon(poop_id),
+                        "count": count,
+                        "percentage": count / total * 100
+                    })
+            stats.sort(key=lambda x: x['count'], reverse=True)
+            return {"total": total, "stats": stats}
+        poop_summary = get_poop_stats(poop_values)
+
     return render_template(
         "month.html",
         label=label,
@@ -259,6 +313,8 @@ def month_view():
         diet_summary=diet_summary,
         steps_summary=steps_summary,
         weight_summary=weight_summary,
+        mood_summary=mood_summary,
+        poop_summary=poop_summary,
         get_diet_icon=get_diet_icon,
         get_diet_label=get_diet_label,
         format_steps_full=format_steps_full,
