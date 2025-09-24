@@ -248,7 +248,7 @@ def month_view():
         }
 
     if view_mode == 'mood':
-        mood_values = [row.mood for row in month_entries if row.mood is not None]
+        mood_values = [row[9] for row in month_entries if row[9] is not None]
 
         def get_mood_stats(moods: list[int]) -> dict:
             """Calcola statistiche di umore per il mese."""
@@ -275,7 +275,7 @@ def month_view():
         mood_summary = get_mood_stats(mood_values)
 
     if view_mode == 'poop':
-        poop_values = [row.poop_quality for row in month_entries if row.poop_quality is not None]
+        poop_values = [row[10] for row in month_entries if row[10] is not None]
 
         def get_poop_stats(poops: list[int]) -> dict:
             """Calcola statistiche di poop quality per il mese."""
