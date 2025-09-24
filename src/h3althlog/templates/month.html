@@ -200,9 +200,9 @@
 {% if view_mode == 'mood' %}
 <section class="month-summary-container">
   {% if mood_summary.total > 0 %}
-    <h3 class="summary-title">Riepilogo Umore</h3>
+    <h3 class="summary-title">Riepilogo Mood</h3>
     <div class="month-summary-grid" style="grid-template-columns: 1fr; max-width: 280px; margin: auto;">
-      {{ icon_percentage_summary(mood_summary, 'Umore del mese') }}
+      {{ icon_percentage_summary(mood_summary, 'Mood del mese') }}
     </div>
   {% endif %}
 </section>
@@ -211,9 +211,9 @@
 {% if view_mode == 'poop' %}
 <section class="month-summary-container">
   {% if poop_summary.total > 0 %}
-    <h3 class="summary-title">Riepilogo Poop Quality</h3>
+    <h3 class="summary-title">Riepilogo Qualità Poop</h3>
     <div class="month-summary-grid" style="grid-template-columns: 1fr; max-width: 280px; margin: auto;">
-      {{ icon_percentage_summary(poop_summary, 'Qualità del mese') }}
+      {{ icon_percentage_summary(poop_summary, 'Qualità Poop del mese') }}
     </div>
   {% endif %}
 </section>
