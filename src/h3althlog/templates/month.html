@@ -92,6 +92,23 @@
 
  </section>
 
+{% macro icon_percentage_summary(data, title) %}
+<div class="summary-box card">
+  <h4 class="summary-box-title">{{ title }}</h4>
+  {% if data.total > 0 %}
+    {% for item in data.stats %}
+    <div class="summary-box-item">
+      <span class="diet-icon-summary">{{ item.icon }}</span>
+      <span class="label">{{ item.name }}</span>
+      <span class="percentage" title="{{ item.count }} su {{ data.total }}">{{ '%.0f'|format(item.percentage) }}%</span>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="muted" style="text-align: center; font-size: .9rem; margin: .5rem 0;">Nessun dato</p>
+  {% endif %}
+</div>
+{% endmacro %}
+
 {% macro meal_percentage_summary(meal_data, meal_name) %}
 <div class="summary-box card">
   <h4 class="summary-box-title">{{ meal_name }}</h4>
@@ -133,32 +150,15 @@
 </section>
 {% endif %}
 
-{% macro diet_percentage_summary(meal_data, meal_name) %}
-<div class="summary-box card">
-  <h4 class="summary-box-title">{{ meal_name }}</h4>
-  {% if meal_data.total > 0 %}
-    {% for item in meal_data.stats %}
-    <div class="summary-box-item">
-      <span class="diet-icon-summary">{{ item.icon }}</span>
-      <span class="label">{{ item.name }}</span>
-      <span class="percentage" title="{{ item.count }} su {{ meal_data.total }}">{{ '%.0f'|format(item.percentage) }}%</span>
-    </div>
-    {% endfor %}
-  {% else %}
-    <p class="muted" style="text-align: center; font-size: .9rem; margin: .5rem 0;">Nessun dato</p>
-  {% endif %}
-</div>
-{% endmacro %}
-
 {% if view_mode == 'diet' %}
 <section class="month-summary-container">
   {% set has_data = diet_summary.breakfast.total > 0 or diet_summary.lunch.total > 0 or diet_summary.dinner.total > 0 %}
   {% if has_data %}
     <h3 class="summary-title">Riepilogo Dieta</h3>
     <div class="month-summary-grid">
-      {{ diet_percentage_summary(diet_summary.breakfast, 'Colazione') }}
-      {{ diet_percentage_summary(diet_summary.lunch, 'Pranzo') }}
-      {{ diet_percentage_summary(diet_summary.dinner, 'Cena') }}
+      {{ icon_percentage_summary(diet_summary.breakfast, 'Colazione') }}
+      {{ icon_percentage_summary(diet_summary.lunch, 'Pranzo') }}
+      {{ icon_percentage_summary(diet_summary.dinner, 'Cena') }}
     </div>
   {% endif %}
 </section>
@@ -179,23 +179,6 @@
   {% endif %}
 </section>
 {% endif %}
-
-{% macro icon_percentage_summary(data, title) %}
-<div class="summary-box card">
-  <h4 class="summary-box-title">{{ title }}</h4>
-  {% if data.total > 0 %}
-    {% for item in data.stats %}
-    <div class="summary-box-item">
-      <span class="diet-icon-summary">{{ item.icon }}</span>
-      <span class="label">{{ item.name }}</span>
-      <span class="percentage" title="{{ item.count }} su {{ data.total }}">{{ '%.0f'|format(item.percentage) }}%</span>
-    </div>
-    {% endfor %}
-  {% else %}
-    <p class="muted" style="text-align: center; font-size: .9rem; margin: .5rem 0;">Nessun dato</p>
-  {% endif %}
-</div>
-{% endmacro %}
 
 {% if view_mode == 'mood' %}
 <section class="month-summary-container">
